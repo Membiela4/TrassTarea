@@ -31,6 +31,7 @@ public class Tarea {
     }
 
     public void setProgreso(int progreso) {
+        if(this.progreso>0 && this.progreso<101)
         this.progreso = progreso;
     }
 
