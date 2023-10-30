@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">TareaUT02</string>
+    <string name="startBtn">"Empezar</string>
+    <string name ="acerca_de">Acerca de...</string>
+    <string name = "salir">Salir</string>
+    <string name="crearTarea">Crear tarea</string>
+    <string name ="prioritarias">Prioritarias</string>
+
+</resources>
