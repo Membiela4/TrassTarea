@@ -17,21 +17,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        startBtn.findViewById(R.id.startBtn);
-
-
-
-
+        startBtn = findViewById(R.id.startBtn);
     }
 
-    private void changeView(){
-        startBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+    public void changeView(View v){
 
-                Intent intent = new Intent(getApplicationContext(),Listado.class);
-                startActivity(intent);
-            }
+        startBtn.setOnClickListener(view -> {
+
+            Intent intent = new Intent(getApplicationContext(),Listado.class);
+            startActivity(intent);
         });
 
     }
