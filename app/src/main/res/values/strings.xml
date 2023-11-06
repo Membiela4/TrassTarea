@@ -5,5 +5,10 @@
     <string name = "salir">Salir</string>
     <string name="crearTarea">Crear tarea</string>
     <string name ="prioritarias">Prioritarias</string>
+    <string name = "tituloTarea">Titulo de la tarea</string>
+    <string name="descripcionTarea">Descripcion de la tarea</string>
+    <string name="tiempoRestante">Quedan </string>
+    <string name="numDiasRestante">días</string>
+    <string name="noTareas">No hay tareas por el momento</string>
 
 </resources>

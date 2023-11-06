@@ -1,5 +1,7 @@
 package com.example.tareaut02.model;
 
+import android.annotation.SuppressLint;
+
 import java.util.Date;
 
 public class Tarea {
@@ -30,6 +32,7 @@ public class Tarea {
         return progreso;
     }
 
+    @SuppressLint("SuspiciousIndentation")
     public void setProgreso(int progreso) {
         if(this.progreso>0 && this.progreso<101)
         this.progreso = progreso;

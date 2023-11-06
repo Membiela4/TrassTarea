@@ -68,10 +68,9 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.TareaViewHol
         public TareaViewHolder(View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.titleTextView);
-            descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
-            progressTextView = itemView.findViewById(R.id.progressTextView);
-            startDateTextView = itemView.findViewById(R.id.startDateTextView);
-            endDateTextView = itemView.findViewById(R.id.endDateTextView);
+            progressTextView = itemView.findViewById(R.id.progressBar);
+            startDateTextView = itemView.findViewById(R.id.startDateText);
+            endDateTextView = itemView.findViewById(R.id.numberDaysText);
             prioritariaImageView = itemView.findViewById(R.id.prioritariaImageView);
         }
     }
