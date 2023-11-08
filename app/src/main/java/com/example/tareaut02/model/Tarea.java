@@ -8,8 +8,8 @@ public class Tarea {
     private String titulo;
     private String descripcion;
     private int progreso;
-    private Date fechaInicio;
-    private Date fechaFinal;
+    private String fechaInicio;
+    private String fechaFinal;
     private boolean prioritaria;
 
     public String getTitulo() {
@@ -38,19 +38,19 @@ public class Tarea {
         this.progreso = progreso;
     }
 
-    public Date getFechaInicio() {
+    public String getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio(Date fechaInicio) {
+    public void setFechaInicio(String fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
-    public Date getFechaFinal() {
+    public String getFechaFinal() {
         return fechaFinal;
     }
 
-    public void setFechaFinal(Date fechaFinal) {
+    public void setFechaFinal(String fechaFinal) {
         this.fechaFinal = fechaFinal;
     }
 
@@ -62,7 +62,7 @@ public class Tarea {
         this.prioritaria = prioritaria;
     }
 
-    public Tarea(String titulo, String descripcion, int progreso, Date fechaInicio, Date fechaFinal, boolean prioritaria) {
+    public Tarea(String titulo, String descripcion, int progreso, String fechaInicio, String fechaFinal, boolean prioritaria) {
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.progreso = progreso;

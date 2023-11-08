@@ -5,13 +5,13 @@
     <item
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:icon="@android:drawable/ic_menu_add"
+        android:icon="@drawable/add"
         android:title="@string/crearTarea"
         app:showAsAction="ifRoom|withText" />
     <item
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:icon="@android:drawable/btn_star_big_on"
+        android:icon="@android:drawable/btn_star_big_off"
         android:title="@string/crearTarea"
         app:showAsAction="ifRoom|withText" />
     <item

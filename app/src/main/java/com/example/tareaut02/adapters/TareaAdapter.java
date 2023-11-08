@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,7 +40,7 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.TareaViewHol
         // Configurar los elementos de la vista con los datos de la tarea
         holder.titleTextView.setText(tarea.getTitulo());
         holder.descriptionTextView.setText(tarea.getDescripcion());
-        holder.progressTextView.setText("Progreso: " + tarea.getProgreso() + "%");
+        holder.progressBar.setProgress(tarea.getProgreso());
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         holder.startDateTextView.setText("Fecha Inicio: " + dateFormat.format(tarea.getFechaInicio()));
@@ -60,7 +61,7 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.TareaViewHol
     public class TareaViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView;
         TextView descriptionTextView;
-        TextView progressTextView;
+        ProgressBar progressBar;
         TextView startDateTextView;
         TextView endDateTextView;
         ImageView prioritariaImageView;
@@ -68,7 +69,7 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.TareaViewHol
         public TareaViewHolder(View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.titleTextView);
-            progressTextView = itemView.findViewById(R.id.progressBar);
+            progressBar = itemView.findViewById(R.id.progressBar);
             startDateTextView = itemView.findViewById(R.id.startDateText);
             endDateTextView = itemView.findViewById(R.id.numberDaysText);
             prioritariaImageView = itemView.findViewById(R.id.prioritariaImageView);
