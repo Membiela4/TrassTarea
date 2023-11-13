@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/descripcion_menu_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/descripcionMenuContextual" />
+    <item
+        android:id="@+id/borrar_menu_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/borrarMenuContextual" />
+    <item
+        android:id="@+id/editar_menu_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/editarMenuContextual" />
+</menu>

@@ -2,6 +2,8 @@ package com.example.tareaut02.model;
 
 import android.annotation.SuppressLint;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Tarea {
@@ -85,5 +87,29 @@ public class Tarea {
                 ", fechaFinal=" + fechaFinal +
                 ", prioritaria=" + prioritaria +
                 '}';
+    }
+
+    public int diasRestantes(String fechaObjetivo) {
+        // Formato de fecha
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+        try {
+            // Obtiene la fecha actual
+            Date fechaActual = new Date();
+            fechaObjetivo = this.getFechaFinal();
+            // Convierte la fecha objetivo de String a Date
+            Date fechaObjetivoDate = sdf.parse(fechaObjetivo);
+
+            // Calcula la diferencia en milisegundos
+            long diferenciaEnMilisegundos = fechaObjetivoDate.getTime() - fechaActual.getTime();
+
+            // Convierte la diferencia de milisegundos a días
+            int diasRestantes = (int) (diferenciaEnMilisegundos / (1000 * 60 * 60 * 24));
+
+            return diasRestantes;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }
