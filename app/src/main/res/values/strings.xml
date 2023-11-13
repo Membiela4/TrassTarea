@@ -20,6 +20,8 @@
     <string name="descripcionMenuContextual">Descripcion</string>
     <string name="borrarMenuContextual">Borrar</string>
     <string name="editarMenuContextual">Editar</string>
+    <string name="insertaDescripcion">Añade una descripcion</string>
+    <string name="crearTareabtn">CREAR TAREA</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
