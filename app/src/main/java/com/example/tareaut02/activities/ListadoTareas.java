@@ -1,6 +1,7 @@
 package com.example.tareaut02.activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
@@ -56,18 +57,17 @@ public class ListadoTareas extends AppCompatActivity {
         updateUI();
 
         // Set up the context menu listener for each item in the RecyclerView
-        class MiViewHolder extends RecyclerView.ViewHolder{
+        class MiViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
             public MiViewHolder(@NonNull View itemView) {
                 super(itemView);
+                itemView.setOnCreateContextMenuListener(this);
+            }
 
-                itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
-                    @Override
-                    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-                        MenuInflater inflater = getMenuInflater();
-                        inflater.inflate(R.menu.menu_contextual,menu);
-                        tareaSeleccionada = tareaList.get(getAdapterPosition());
-                    }
-                });
+            @Override
+            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+                MenuInflater inflater = getMenuInflater();
+                inflater.inflate(R.menu.menu_contextual, menu);
+                tareaSeleccionada = tareaList.get(getAdapterPosition());
             }
         }
 
@@ -104,7 +104,7 @@ public class ListadoTareas extends AppCompatActivity {
         } else if (id == R.id.menuAcercaDe) {
             // Abre ventana emergente de texto con datos informativos de la aplicación
             // (Puedes modificar esto para mostrar una actividad de Acerca de si lo prefieres)
-            // Toast.makeText(this, "Acerca de", Toast.LENGTH_SHORT).show();
+
             return true;
         } else if (id == R.id.menuSalir) {
             // Realiza la acción de salida o cierre de la aplicación
@@ -113,6 +113,7 @@ public class ListadoTareas extends AppCompatActivity {
         } else if (id == R.id.prioritarias) {
             mostrarPreferentes = !mostrarPreferentes; // Cambia el estado
             updateUI(); // Actualiza la vista
+            tareaAdapter.notifyDataSetChanged();
 
             // Llama a la función que actualiza el menú para cambiar el ícono
             invalidateOptionsMenu();
@@ -125,6 +126,7 @@ public class ListadoTareas extends AppCompatActivity {
         if (mostrarPreferentes) {
 
             tareaAdapter.setTareas(tareasPreferentes);
+
         } else {
             tareaAdapter.setTareas(tareaList);
         }
@@ -132,20 +134,35 @@ public class ListadoTareas extends AppCompatActivity {
     }
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
-
         int itemId = item.getItemId();
         if (itemId == R.id.descripcion_menu_item) {
-            DialogFragment dialogFragment = new DialogFragment();
-            dialogFragment.setCancelable(true);
-            String descripcion = tareaSeleccionada.getDescripcion();
-            Toast toast = new Toast(this);
-            toast.setText(descripcion);
-            toast.show();
+            showDescriptionDialog(tareaSeleccionada.getDescripcion());
+
         } else if (itemId == R.id.borrar_menu_item) {
-           listaTareas.removeItemDecorationAt(itemId);
+            // Eliminar la tarea seleccionada de la lista y actualizar la UI
+            tareaList.remove(tareaSeleccionada);
+            if (tareaSeleccionada.isPrioritaria())
+                tareasPreferentes.remove(tareaSeleccionada);
+            tareaAdapter.notifyDataSetChanged();
+            updateUI();
+            showSnackbar("Tarea eliminada");
         }
         return super.onContextItemSelected(item);
     }
+    private void showDescriptionDialog(String descripcion) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Descripción")
+                .setMessage(descripcion)
+                .setPositiveButton("Aceptar", null); // Puedes agregar botones adicionales si es necesario
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void showSnackbar(String message) {
+        Snackbar.make(listaTareas, message, Snackbar.LENGTH_SHORT).show();
+    }
+
 
     private void chargeList() {
         Tarea tarea1 = new Tarea("Planificación del Proyecto", "Crear un plan detallado para el proyecto de desarrollo de software.", 20, "10/10/2023", "27/10/2023", true);

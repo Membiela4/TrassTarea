@@ -1,18 +1,17 @@
 package com.example.tareaut02.fragments;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentResultListener;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.tareaut02.R;
 import com.example.tareaut02.model.Tarea;
@@ -23,11 +22,12 @@ import java.util.ArrayList;
 public class SecondFragment extends Fragment {
 
     TextView tvDescripcion;
-    Button btnAdd;
+    Button btnAdd,btnBack;
     ArrayList<Tarea> tareas;
     String titulo , fechaInicio ,fechaObjetivo;
     int progreso ;
     boolean prioritaria ;
+    FragmentTransaction fragmentTransaction;
     public SecondFragment() {
         // Required empty public constructor
     }
@@ -38,15 +38,13 @@ public class SecondFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getParentFragmentManager().setFragmentResultListener("tarea", this, new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                  titulo = result.getString("tituloTarea");
-                  fechaInicio =result.getString("fechaInicio");
-                  fechaObjetivo =result.getString("fechaObj");
-                  progreso = result.getInt("progreso");
-                  prioritaria = result.getBoolean("prioritaria");
-            }
+
+        getParentFragmentManager().setFragmentResultListener("tarea", this, (requestKey, result) -> {
+              titulo = result.getString("tituloTarea");
+              fechaInicio =result.getString("fechaInicio");
+              fechaObjetivo =result.getString("fechaObj");
+              progreso = result.getInt("progreso");
+              prioritaria = result.getBoolean("prioritaria");
         });
 
 
@@ -64,8 +62,11 @@ public class SecondFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         btnAdd = view.findViewById(R.id.btn_add);
+        btnBack = view.findViewById(R.id.btn_back);
         tvDescripcion = view.findViewById(R.id.tv_descripcion);
         btnAdd.setOnClickListener(this::createTarea);
+        btnBack.setOnClickListener(this::back);
+
     }
 
     private void createTarea(View view){
@@ -84,5 +85,9 @@ public class SecondFragment extends Fragment {
             toast.show();
         }
 
+    }
+
+    private void back(View view){
+         fragmentTransaction.addToBackStack(null);
     }
 }

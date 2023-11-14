@@ -10,9 +10,9 @@
     <string name="tiempoRestante">Quedan </string>
     <string name="numDiasRestante">días</string>
     <string name="noTareas">No hay tareas por el momento</string>
-    <string name="tituloAddtarea">AÑADIR TAREA</string>
-    <string name="backBtn">CANCELAR</string>
-    <string name="nextBtn">SIGUIENTE</string>
+    <string name="tituloAddtarea">Añadir Tarea</string>
+    <string name="backBtn">Cancelar</string>
+    <string name="nextBtn">Siguiente</string>
     <string name="fechaObjetivo">Fecha objetivo</string>
     <string name="fechaInicio">Fecha inicio</string>
     <string name="progressSpinner">Progreso</string>
@@ -21,7 +21,8 @@
     <string name="borrarMenuContextual">Borrar</string>
     <string name="editarMenuContextual">Editar</string>
     <string name="insertaDescripcion">Añade una descripcion</string>
-    <string name="crearTareabtn">CREAR TAREA</string>
+    <string name="crearTareabtn">Crear Tarea</string>
+    <string name="volverBtn">Volver</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
