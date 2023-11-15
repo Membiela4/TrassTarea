@@ -22,8 +22,8 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
         android:name="com.example.tareaut02.fragments.AddTaskFirst"
-        android:layout_width="359dp"
-        android:layout_height="450dp"
+        android:layout_width="362dp"
+        android:layout_height="500dp"
         android:layout_marginStart="25dp"
         android:layout_marginTop="68dp"
         android:layout_marginEnd="25dp"

@@ -37,6 +37,8 @@ public class ListadoTareas extends AppCompatActivity {
     private List<Tarea> tareasPreferentes;
     private boolean mostrarPreferentes = false;
     private Tarea tareaSeleccionada;
+    private int selectedTaskPosition = -1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +76,6 @@ public class ListadoTareas extends AppCompatActivity {
 
         registerForContextMenu(listaTareas);
     }
-
 
 
 
@@ -137,18 +138,24 @@ public class ListadoTareas extends AppCompatActivity {
         int itemId = item.getItemId();
         if (itemId == R.id.descripcion_menu_item) {
             showDescriptionDialog(tareaSeleccionada.getDescripcion());
-
         } else if (itemId == R.id.borrar_menu_item) {
             // Eliminar la tarea seleccionada de la lista y actualizar la UI
-            tareaList.remove(tareaSeleccionada);
-            if (tareaSeleccionada.isPrioritaria())
+            tareaList.remove(selectedTaskPosition);
+            if (tareaSeleccionada.isPrioritaria()) {
                 tareasPreferentes.remove(tareaSeleccionada);
+            }
             tareaAdapter.notifyDataSetChanged();
             updateUI();
             showSnackbar("Tarea eliminada");
         }
+
+        // Restablece la posición de la tarea seleccionada después de su uso
+        selectedTaskPosition = -1;
+        tareaSeleccionada = null;
+
         return super.onContextItemSelected(item);
     }
+
     private void showDescriptionDialog(String descripcion) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Descripción")
@@ -176,6 +183,9 @@ public class ListadoTareas extends AppCompatActivity {
         tareaList.add(tarea3);
         tareaList.add(tarea4);
         tareaList.add(tarea5);
-        tareasPreferentes.addAll(tareaList);
+        for (Tarea t:tareaList) {
+            if(t.isPrioritaria())
+                tareasPreferentes.add(t);
+        }
     }
 }

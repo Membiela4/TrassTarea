@@ -28,8 +28,7 @@ public class CrearTareaActivity extends AppCompatActivity {
 
 
     Button btnBack;
-    private Tarea tareaSeleccionada;
-    private ArrayList<Tarea> tareaList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

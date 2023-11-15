@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.tareaut02.R;
@@ -88,6 +89,13 @@ public class SecondFragment extends Fragment {
     }
 
     private void back(View view){
-         fragmentTransaction.addToBackStack(null);
+        FragmentManager fragmentManager = getParentFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        AddTaskFirst firstFragment = new AddTaskFirst();
+
+        // Reemplaza el fragmento actual con el fragmento_second
+        fragmentTransaction.replace(R.id.fragmentContainerView, firstFragment);
+        fragmentTransaction.commit();
+
     }
 }
