@@ -1,44 +1,71 @@
-package com.example.tareaut02.activities;
+    package com.example.tareaut02.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
+    import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
-import android.os.Bundle;
-import android.view.ContextMenu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.ImageView;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
+    import androidx.appcompat.app.AppCompatActivity;
+    import androidx.fragment.app.FragmentManager;
+    import androidx.lifecycle.ViewModelProvider;
 
-import com.example.tareaut02.R;
-import com.example.tareaut02.model.Tarea;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.textview.MaterialTextView;
+    import android.app.Activity;
+    import android.content.Intent;
+    import android.os.Bundle;
+    import android.util.Log;
+    import android.view.View;
+    import android.widget.Button;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+    import com.example.tareaut02.R;
+    import com.example.tareaut02.fragments.FirstFragment;
+    import com.example.tareaut02.fragments.SecondFragment;
+    import com.example.tareaut02.model.Tarea;
+    import com.example.tareaut02.viewmodel.MyViewModel;
 
-public class CrearTareaActivity extends AppCompatActivity {
+    public class CrearTareaActivity extends AppCompatActivity implements SecondFragment.onTaskCreatedListener, FirstFragment.OnNextBtnClicked {
 
+        MyViewModel vm;
+        FirstFragment firstFragment;
+        SecondFragment secondFragment;
+        FragmentManager fragmentManager;
 
-    Button btnBack;
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_crear_tarea);
+            vm = new ViewModelProvider(this).get(MyViewModel.class);
+            firstFragment = new FirstFragment();
+            secondFragment = new SecondFragment();
+            fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().add(R.id.fragmentContainerView,firstFragment).commit();
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_crear_tarea);
-        btnBack = findViewById(R.id.backBtn);
-        btnBack.setOnClickListener(this::back);
+        }
 
+        @Override
+        public void onTaskCreated() {
+            // Aquí debes obtener la información de la tarea desde tus vistas (EditText, etc.)
+             Tarea newTask = new Tarea(vm.getTituloTarea(), vm.getDescripcionTarea(), vm.getProgreso(), vm.getFechaInicio()
+                     , vm.getFechaFinalizacion(), vm.getTareaPrioritaria());
+            // Llamada al método de la interfaz para pasar la nueva tarea a la actividad
+            Intent intent = new Intent(this,ListadoTareas.class);
+            intent.putExtra("tarea",newTask);
+            if(newTask!=null){
+                setResult(Activity.RESULT_OK,intent);
+                finish();
+            }
+
+        }
+
+        @Override
+        public void onBack() {
+            if (secondFragment.isAdded()) {
+                // Si el segundo fragmento está agregado, realiza una transacción para mostrar el primer fragmento
+                fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, firstFragment).commit();
+            } else {
+                // Si el segundo fragmento no está agregado, muestra un log o realiza alguna acción de depuración
+                Log.e(TAG, "onBack: SecondFragment no está agregado");
+            }
+        }
+        @Override
+        public void btnSiguiente() {
+            if (!secondFragment.isAdded())
+                fragmentManager.beginTransaction().replace(R.id.fragmentContainerView,secondFragment).commit();
+        }
     }
-
-    private void back(View view){
-        finish();
-    }
-}

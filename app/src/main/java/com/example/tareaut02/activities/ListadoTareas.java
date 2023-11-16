@@ -1,14 +1,21 @@
 package com.example.tareaut02.activities;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -16,20 +23,17 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.example.tareaut02.R;
 import com.example.tareaut02.adapters.TareaAdapter;
 import com.example.tareaut02.model.Tarea;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.textview.MaterialTextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListadoTareas extends AppCompatActivity {
+public class ListadoTareas extends AppCompatActivity  {
 
     private RecyclerView listaTareas;
     private TareaAdapter tareaAdapter;
@@ -37,14 +41,13 @@ public class ListadoTareas extends AppCompatActivity {
     private List<Tarea> tareasPreferentes;
     private boolean mostrarPreferentes = false;
     private Tarea tareaSeleccionada;
-    private int selectedTaskPosition = -1;
-
+    private int selectedTaskPosition = 0;
+    Tarea nuevaTarea;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.listado_tareas);
-
         listaTareas = findViewById(R.id.listaTareas);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         listaTareas.setLayoutManager(layoutManager);
@@ -63,21 +66,29 @@ public class ListadoTareas extends AppCompatActivity {
             public MiViewHolder(@NonNull View itemView) {
                 super(itemView);
                 itemView.setOnCreateContextMenuListener(this);
+
+                itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+                        selectedTaskPosition = getAdapterPosition();
+                        tareaSeleccionada = tareaList.get(selectedTaskPosition);
+                        return false;
+                    }
+                });
             }
 
             @Override
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
                 MenuInflater inflater = getMenuInflater();
                 inflater.inflate(R.menu.menu_contextual, menu);
-                tareaSeleccionada = tareaList.get(getAdapterPosition());
+                tareaSeleccionada = tareaList.get(selectedTaskPosition);
+
             }
         }
 
 
         registerForContextMenu(listaTareas);
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -100,12 +111,10 @@ public class ListadoTareas extends AppCompatActivity {
         if (id == R.id.menuCrearTarea) {
             // Abre la actividad de creación de tarea
             Intent intent = new Intent(this, CrearTareaActivity.class);
-            startActivity(intent);
+            launcher.launch(intent);
             return true;
         } else if (id == R.id.menuAcercaDe) {
-            // Abre ventana emergente de texto con datos informativos de la aplicación
-            // (Puedes modificar esto para mostrar una actividad de Acerca de si lo prefieres)
-
+            mostrarVentanaEmergente();
             return true;
         } else if (id == R.id.menuSalir) {
             // Realiza la acción de salida o cierre de la aplicación
@@ -122,6 +131,32 @@ public class ListadoTareas extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    private void mostrarVentanaEmergente() {
+        // Obtener el inflador de diseño
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.ventana_emergente_acercade, null);
+
+        // Configurar el contenido de la ventana emergente
+        TextView contenidoVentanaEmergente = view.findViewById(R.id.contenido_ventana_emergente);
+        contenidoVentanaEmergente.setText("Título de la aplicación: TrassTarea\n" +
+                "Nombre del centro: IES Trassierra\n" +
+                "Autor: David Membiela\n" +
+                "Año actual: 2023");
+
+        // Crear el cuadro de diálogo emergente
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(view)
+                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // Código a ejecutar cuando se hace clic en Aceptar
+                        dialog.dismiss(); // Cierra la ventana emergente
+                    }
+                });
+
+        // Mostrar el cuadro de diálogo
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
 
     private void updateUI() {
         if (mostrarPreferentes) {
@@ -137,24 +172,21 @@ public class ListadoTareas extends AppCompatActivity {
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
         if (itemId == R.id.descripcion_menu_item) {
-            showDescriptionDialog(tareaSeleccionada.getDescripcion());
+            showDescriptionDialog(tareaList.get(selectedTaskPosition).getDescripcion());
         } else if (itemId == R.id.borrar_menu_item) {
+            tareaSeleccionada = tareaList.get(selectedTaskPosition);
             // Eliminar la tarea seleccionada de la lista y actualizar la UI
-            tareaList.remove(selectedTaskPosition);
-            if (tareaSeleccionada.isPrioritaria()) {
-                tareasPreferentes.remove(tareaSeleccionada);
-            }
-            tareaAdapter.notifyDataSetChanged();
+            tareaList.remove(tareaList.get(selectedTaskPosition));
+            tareasPreferentes.remove(tareaSeleccionada);
             updateUI();
             showSnackbar("Tarea eliminada");
         }
 
-        // Restablece la posición de la tarea seleccionada después de su uso
-        selectedTaskPosition = -1;
-        tareaSeleccionada = null;
+
 
         return super.onContextItemSelected(item);
     }
+
 
     private void showDescriptionDialog(String descripcion) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -174,9 +206,9 @@ public class ListadoTareas extends AppCompatActivity {
     private void chargeList() {
         Tarea tarea1 = new Tarea("Planificación del Proyecto", "Crear un plan detallado para el proyecto de desarrollo de software.", 20, "10/10/2023", "27/10/2023", true);
         Tarea tarea2 = new Tarea("Revisión del Diseño", "Revisar y mejorar el diseño de la interfaz de usuario.", 50, "10/10/2023", "20/12/2023", false);
-        Tarea tarea3 = new Tarea("Pruebas de Funcionalidad", "Realizar pruebas de funcionalidad en el módulo de usuario.", 10, "10/10/2023", "15/11/2023", false);
+        Tarea tarea3 = new Tarea("Pruebas de Funcionalidad", "Realizar pruebas de funcionalidad en el módulo de usuario.", 100, "10/10/2023", "15/11/2023", false);
         Tarea tarea4 = new Tarea("Entrenamiento del Equipo", "Organizar una sesión de entrenamiento para el equipo de desarrollo.", 0, "10/10/2023", "20/11/2023", true);
-        Tarea tarea5 = new Tarea("Informe de Progreso", "Preparar un informe de progreso mensual para la alta dirección.", 30, "10/10/2023", "20/10/23", true);
+        Tarea tarea5 = new Tarea("Informe de Progreso", "Preparar un informe de progreso mensual para la alta dirección.", 30, "10/10/2023", "20/10/2023", true);
 
         tareaList.add(tarea1);
         tareaList.add(tarea2);
@@ -188,4 +220,23 @@ public class ListadoTareas extends AppCompatActivity {
                 tareasPreferentes.add(t);
         }
     }
+
+    ActivityResultContract<Intent, ActivityResult> contract = new ActivityResultContracts.StartActivityForResult();
+
+    ActivityResultCallback<ActivityResult> respuesta = new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if (result.getResultCode() == Activity.RESULT_OK){
+                Intent intent = result.getData();
+                Tarea tarea = (Tarea) intent.getSerializableExtra("tarea");
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                    tareaList.add(tarea);
+                }
+                tareaAdapter.notifyDataSetChanged();
+                updateUI();
+            }
+        }
+    };
+
+    ActivityResultLauncher<Intent> launcher = registerForActivityResult(contract, respuesta);
 }

@@ -1,6 +1,9 @@
 package com.example.tareaut02.adapters;
 
 import android.content.Context;
+import android.graphics.Paint;
+import android.graphics.Typeface;
+import android.text.SpannableString;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -34,6 +37,7 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.TareaViewHol
 
     public void setTareas(List<Tarea> tareas) {
         tareaList = tareas;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -45,44 +49,56 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.TareaViewHol
 
     @Override
     public void onBindViewHolder(TareaViewHolder holder, int position) {
-        Tarea tarea = tareaList.get(position);
+        if (tareaList != null && position < tareaList.size()) {
+            Tarea tarea = tareaList.get(position);
 
-        // Configurar los elementos de la vista con los datos de la tarea
-        holder.titleTextView.setText(tarea.getTitulo());
-        holder.progressBar.setProgress(tarea.getProgreso());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        holder.startDateTextView.setText(tarea.getFechaInicio());
-        holder.descriptionTextView.setText(tarea.getDescripcion());
-
-        int diasRestantes = tarea.diasRestantes(tarea.getFechaFinal());
-        if (diasRestantes < 0) {
-            holder.remainingDays.setTextColor(ContextCompat.getColor(context, com.google.android.material.R.color.design_error)); // Cambiar al color rojo
-            holder.remainingDays.setText(String.valueOf(diasRestantes)); // El valor en negativo
-        } else {
-            holder.remainingDays.setTextColor(ContextCompat.getColor(context, android.R.color.black)); // Restablecer el color predeterminado
-            holder.remainingDays.setText(String.valueOf(diasRestantes));
-        }
-
-        if (tarea.isPrioritaria()) {
-            holder.prioritariaImageView.setImageResource(R.drawable.btn_star__on);
-        } else {
-            holder.prioritariaImageView.setImageResource(R.drawable.btn_star_off);
-        }
-
-        holder.itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
-            @Override
-            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-                MenuInflater inflater = new MenuInflater(context); // Utiliza el contexto proporcionado en el constructor
-                inflater.inflate(R.menu.menu_contextual, menu);
-                tareaSeleccionada = tareaList.get(holder.getAdapterPosition());
+            // Configurar los elementos de la vista con los datos de la tarea
+            if (tarea.getTitulo() != null) {
+                holder.titleTextView.setText(tarea.getTitulo());
             }
-        });
-    }
 
+            holder.progressBar.setProgress(tarea.getProgreso());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            holder.startDateTextView.setText(tarea.getFechaInicio());
+            holder.descriptionTextView.setText(tarea.getDescripcion());
+
+            int diasRestantes = tarea.diasRestantes(tarea.getFechaFinal());
+            if (diasRestantes < 0) {
+                holder.remainingDays.setTextColor(ContextCompat.getColor(context, com.google.android.material.R.color.design_error));
+                holder.remainingDays.setText(String.valueOf(diasRestantes));
+            } else {
+                holder.remainingDays.setTextColor(ContextCompat.getColor(context, android.R.color.black));
+                holder.remainingDays.setText(String.valueOf(diasRestantes));
+            }
+
+            if (tarea.getProgreso() == 100) {
+                holder.remainingDays.setText("0");
+                holder.titleTextView.setPaintFlags(holder.titleTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            } else {
+                holder.titleTextView.setPaintFlags(holder.titleTextView.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+            }
+
+            if (tarea.isPrioritaria()) {
+                holder.prioritariaImageView.setImageResource(R.drawable.btn_star__on);
+                holder.titleTextView.setTypeface(null, Typeface.BOLD);
+            } else {
+                holder.prioritariaImageView.setImageResource(R.drawable.btn_star_off);
+            }
+
+            holder.itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+                @Override
+                public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+                    MenuInflater inflater = new MenuInflater(context);
+                    inflater.inflate(R.menu.menu_contextual, menu);
+                    tareaSeleccionada = tareaList.get(holder.getAdapterPosition());
+                }
+            });
+        }
+    }
 
     @Override
     public int getItemCount() {
-        return tareaList.size();
+        return tareaList != null ? tareaList.size() : 0;
     }
 
     public class TareaViewHolder extends RecyclerView.ViewHolder {
