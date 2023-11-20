@@ -4,34 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.CrearTareaActivity">
+    tools:context=".activities.EditarTareaActivity">
 
     <TextView
-        android:id="@+id/txtTitulo"
+        android:id="@+id/label_editar_tarea"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="31dp"
-        android:layout_marginBottom="41dp"
-        android:text="@string/tituloAddtarea"
-        app:layout_constraintBottom_toTopOf="@+id/fragmentContainerView"
+        android:layout_marginTop="56dp"
+        android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView"
+        android:id="@+id/fragment_container_editar"
         android:name="com.example.tareaut02.fragments.FirstFragment"
         android:layout_width="362dp"
         android:layout_height="500dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="68dp"
-        android:layout_marginEnd="25dp"
-        android:background="@color/material_dynamic_neutral90"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtTitulo" />
+        app:layout_constraintTop_toBottomOf="@+id/label_editar_tarea" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

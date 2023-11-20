@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.text.SpannableString;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -40,6 +41,10 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.TareaViewHol
         notifyDataSetChanged();
     }
 
+    public Tarea getTarea(){
+        return tareaSeleccionada;
+    }
+
     @NonNull
     @Override
     public TareaViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -53,14 +58,15 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.TareaViewHol
             Tarea tarea = tareaList.get(position);
 
             // Configurar los elementos de la vista con los datos de la tarea
-            if (tarea.getTitulo() != null) {
+            if (tarea != null) {
                 holder.titleTextView.setText(tarea.getTitulo());
-            }
 
-            holder.progressBar.setProgress(tarea.getProgreso());
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-            holder.startDateTextView.setText(tarea.getFechaInicio());
-            holder.descriptionTextView.setText(tarea.getDescripcion());
+
+                holder.progressBar.setProgress(tarea.getProgreso());
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                holder.startDateTextView.setText(tarea.getFechaInicio());
+                holder.descriptionTextView.setText(tarea.getDescripcion());
+            }
 
             int diasRestantes = tarea.diasRestantes(tarea.getFechaFinal());
             if (diasRestantes < 0) {
@@ -95,6 +101,8 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.TareaViewHol
             });
         }
     }
+
+
 
     @Override
     public int getItemCount() {

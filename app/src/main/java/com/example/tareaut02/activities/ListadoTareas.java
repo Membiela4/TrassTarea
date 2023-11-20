@@ -42,7 +42,6 @@ public class ListadoTareas extends AppCompatActivity  {
     private boolean mostrarPreferentes = false;
     private Tarea tareaSeleccionada;
     private int selectedTaskPosition = 0;
-    Tarea nuevaTarea;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +60,7 @@ public class ListadoTareas extends AppCompatActivity  {
         chargeList();
         updateUI();
 
-        // Set up the context menu listener for each item in the RecyclerView
+
         class MiViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
             public MiViewHolder(@NonNull View itemView) {
                 super(itemView);
@@ -118,7 +117,7 @@ public class ListadoTareas extends AppCompatActivity  {
             return true;
         } else if (id == R.id.menuSalir) {
             // Realiza la acción de salida o cierre de la aplicación
-            finish();
+            finishAffinity();
             return true;
         } else if (id == R.id.prioritarias) {
             mostrarPreferentes = !mostrarPreferentes; // Cambia el estado
@@ -171,28 +170,63 @@ public class ListadoTareas extends AppCompatActivity  {
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
+        Tarea tarea = tareaAdapter.getTarea();
         if (itemId == R.id.descripcion_menu_item) {
-            showDescriptionDialog(tareaList.get(selectedTaskPosition).getDescripcion());
+            showDescriptionDialog(tarea.getDescripcion());
         } else if (itemId == R.id.borrar_menu_item) {
-            tareaSeleccionada = tareaList.get(selectedTaskPosition);
-            // Eliminar la tarea seleccionada de la lista y actualizar la UI
-            tareaList.remove(tareaList.get(selectedTaskPosition));
-            tareasPreferentes.remove(tareaSeleccionada);
-            updateUI();
-            showSnackbar("Tarea eliminada");
+            mostrarDialogoConfirmacionBorrado(tarea);
+        }else if(itemId == R.id.editar_menu_item){
+            Intent intent = new Intent(this, EditarTareaActivity.class);
+            //pasar la tarea a la actividad de editar
+            launcher.launch(intent);
         }
-
-
 
         return super.onContextItemSelected(item);
     }
+    private void mostrarDialogoConfirmacionBorrado(final Tarea tarea) {
+        // Crear un AlertDialog para confirmar la eliminación
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Confirmar eliminación");
+        builder.setMessage("¿Estás seguro de que quieres eliminar esta tarea? ("+tarea.getTitulo()+")");
+
+        // Agregar botón de cancelar
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // El usuario ha cancelado la eliminación, no hacer nada
+                dialog.dismiss();
+            }
+        });
+
+        // Agregar botón de confirmación
+        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Eliminar la tarea seleccionada de la lista y actualizar la UI
+                tareaList.remove(tarea);
+                if (tarea.isPrioritaria()) {
+                    tareasPreferentes.remove(tarea);
+                }
+
+                // Actualizar la interfaz de usuario
+                updateUI();
+
+                // Mostrar un Snackbar indicando que la tarea ha sido eliminada
+                showSnackbar("Tarea eliminada");
+            }
+        });
+
+        // Mostrar el diálogo
+        builder.show();
+    }
+
 
 
     private void showDescriptionDialog(String descripcion) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Descripción")
                 .setMessage(descripcion)
-                .setPositiveButton("Aceptar", null); // Puedes agregar botones adicionales si es necesario
+                .setPositiveButton("Aceptar", null);
 
         AlertDialog dialog = builder.create();
         dialog.show();
@@ -229,11 +263,10 @@ public class ListadoTareas extends AppCompatActivity  {
             if (result.getResultCode() == Activity.RESULT_OK){
                 Intent intent = result.getData();
                 Tarea tarea = (Tarea) intent.getSerializableExtra("tarea");
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-                    tareaList.add(tarea);
-                }
-                tareaAdapter.notifyDataSetChanged();
+                tareaList.add(tarea);
                 updateUI();
+                tareaAdapter.notifyDataSetChanged();
+
             }
         }
     };

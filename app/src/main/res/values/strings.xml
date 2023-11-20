@@ -23,6 +23,7 @@
     <string name="insertaDescripcion">Añade una descripcion</string>
     <string name="crearTareabtn">Crear Tarea</string>
     <string name="volverBtn">Volver</string>
+    <string name="editarTareaLabel">Editar Tarea</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
