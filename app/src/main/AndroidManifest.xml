@@ -6,11 +6,11 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/r__1_"
+        android:icon="@drawable/icono_aplicacion1"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/r__1_"
+        android:roundIcon="@drawable/icono_aplicacion1"
         android:supportsRtl="true"
-        android:theme="@style/Theme.TareaUT02"
+        android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
             android:name=".activities.EditarTareaActivity"
@@ -30,6 +30,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
     </application>
 
 </manifest>

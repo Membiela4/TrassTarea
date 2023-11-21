@@ -78,16 +78,17 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.TareaViewHol
 
             if (tarea.getProgreso() == 100) {
                 holder.remainingDays.setText("0");
+                holder.titleTextView.setPaintFlags(holder.titleTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             } else {
                 holder.titleTextView.setPaintFlags(holder.titleTextView.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
             }
 
             if (tarea.isPrioritaria()) {
                 holder.titleTextView.setTypeface(null, Typeface.BOLD);
-                holder.prioritariaImageView.setImageResource(R.drawable.btn_star__on);
+                holder.prioritariaImageView.setImageResource(R.drawable.star_filled);
             } else {
                 holder.titleTextView.setTypeface(null, Typeface.NORMAL);
-                holder.prioritariaImageView.setImageResource(R.drawable.btn_star_off);
+                holder.prioritariaImageView.setImageResource(R.drawable.star_unfilled);
             }
 
             // Verificar si el método onCreateContextMenu es llamado y la tarea seleccionada

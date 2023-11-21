@@ -24,8 +24,8 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container_editar"
         android:name="com.example.tareaut02.fragments.FirstFragment"
-        android:layout_width="409dp"
-        android:layout_height="620dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="25dp"
         android:layout_marginEnd="25dp"
         android:background="@color/material_dynamic_neutral90"

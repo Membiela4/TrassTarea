@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/back"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/darBlue">
 
     <TextView
         android:id="@+id/textNoTask"
@@ -21,5 +23,5 @@
         android:id="@+id/listaTareas"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipChildren="true"/>
+        android:clipChildren="true" />
 </RelativeLayout>

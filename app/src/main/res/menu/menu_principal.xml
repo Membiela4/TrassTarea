@@ -6,14 +6,14 @@
         android:id="@+id/menuCrearTarea"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:icon="@drawable/add"
+        android:icon="@drawable/icons8_task_60"
         android:title="@string/crearTarea"
         app:showAsAction="ifRoom|withText" />
     <item
         android:id="@+id/prioritarias"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:icon="@android:drawable/btn_star_big_on"
+        android:icon="@drawable/star_unfilled"
         android:title="@string/prioritarias"
         app:showAsAction="ifRoom|withText" />
     <item

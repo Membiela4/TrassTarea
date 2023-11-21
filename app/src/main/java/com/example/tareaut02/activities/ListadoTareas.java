@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,12 +19,15 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.example.tareaut02.R;
@@ -47,6 +51,8 @@ public class ListadoTareas extends AppCompatActivity  {
     private int selectedTaskPosition = 0;
     private MyViewModel viewModel;
 
+
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +70,6 @@ public class ListadoTareas extends AppCompatActivity  {
 
         chargeList();
         updateUI();
-
 
         class MiViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
             public MiViewHolder(@NonNull View itemView) {
@@ -131,9 +136,9 @@ public class ListadoTareas extends AppCompatActivity  {
         // Cambia el ícono según el estado de mostrarPreferentes
         MenuItem prioritariasItem = menu.findItem(R.id.prioritarias);
         if (mostrarPreferentes) {
-            prioritariasItem.setIcon(R.drawable.btn_star__on);
+            prioritariasItem.setIcon(R.drawable.star_filled);
         } else {
-            prioritariasItem.setIcon(R.drawable.btn_star_off);
+            prioritariasItem.setIcon(R.drawable.star_unfilled);
         }
 
         return true;
@@ -157,6 +162,13 @@ public class ListadoTareas extends AppCompatActivity  {
         } else if (id == R.id.prioritarias) {
             mostrarPreferentes = !mostrarPreferentes; // Cambia el estado
             updateUI(); // Actualiza la vista
+
+            // Cambia el ícono según el estado de mostrarPreferentes
+            if (mostrarPreferentes) {
+                item.setIcon(R.drawable.star_filled);
+            } else {
+                item.setIcon(R.drawable.star_unfilled);
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -190,14 +202,16 @@ public class ListadoTareas extends AppCompatActivity  {
 
     private void updateUI() {
         if (mostrarPreferentes) {
-
             tareaAdapter.setTareas(tareasPreferentes);
-
         } else {
             tareaAdapter.setTareas(tareaList);
         }
         tareaAdapter.notifyDataSetChanged();
+
+
+
     }
+
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
@@ -290,7 +304,8 @@ public class ListadoTareas extends AppCompatActivity  {
         tareaList.add(tarea5);
         tareaList.add(tarea6);
         tareaList.add(tarea7);
-
+        tareaList.add(tarea8);
+        tareaList.add(tarea9);
         for (Tarea t:tareaList) {
             if(t.isPrioritaria())
                 tareasPreferentes.add(t);

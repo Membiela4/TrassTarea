@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#C8AEAAA5"
+    android:background="@color/yellow"
     android:gravity="center"
     android:orientation="vertical">
     <!-- res/layout/ventana_emergente.xml -->
@@ -13,7 +13,7 @@
         android:id="@+id/imageView"
         android:layout_width="175dp"
         android:layout_height="198dp"
-        app:srcCompat="@drawable/r__1_" />
+        app:srcCompat="@drawable/icono_aplicacion1" />
 
     <TextView
         android:id="@+id/contenido_ventana_emergente"
