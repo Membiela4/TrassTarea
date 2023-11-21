@@ -12,7 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Tarea implements Serializable {
+public class Tarea implements Parcelable, Serializable {
     private String titulo;
     private String descripcion;
     private int progreso;
@@ -27,6 +27,27 @@ public class Tarea implements Serializable {
         this.fechaInicio = fechaInicio.getValue();
         this.fechaFinal = fechaFinalizacion.getValue();
     }
+
+    protected Tarea(Parcel in) {
+        titulo = in.readString();
+        descripcion = in.readString();
+        progreso = in.readInt();
+        fechaInicio = in.readString();
+        fechaFinal = in.readString();
+        prioritaria = in.readByte() != 0;
+    }
+
+    public static final Creator<Tarea> CREATOR = new Creator<Tarea>() {
+        @Override
+        public Tarea createFromParcel(Parcel in) {
+            return new Tarea(in);
+        }
+
+        @Override
+        public Tarea[] newArray(int size) {
+            return new Tarea[size];
+        }
+    };
 
     public String getTitulo() {
         return titulo;
@@ -114,4 +135,18 @@ public class Tarea implements Serializable {
         return 0;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeString(titulo);
+        dest.writeString(descripcion);
+        dest.writeInt(progreso);
+        dest.writeString(fechaInicio);
+        dest.writeString(fechaFinal);
+        dest.writeByte((byte) (prioritaria ? 1 : 0));
+    }
 }

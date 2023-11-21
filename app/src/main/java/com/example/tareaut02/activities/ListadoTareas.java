@@ -17,6 +17,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,6 +29,7 @@ import android.widget.TextView;
 import com.example.tareaut02.R;
 import com.example.tareaut02.adapters.TareaAdapter;
 import com.example.tareaut02.model.Tarea;
+import com.example.tareaut02.viewmodel.MyViewModel;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -41,12 +43,15 @@ public class ListadoTareas extends AppCompatActivity  {
     private List<Tarea> tareasPreferentes;
     private boolean mostrarPreferentes = false;
     private Tarea tareaSeleccionada;
+    private int indiceTarea;
     private int selectedTaskPosition = 0;
+    private MyViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.listado_tareas);
+        viewModel = new MyViewModel();
         listaTareas = findViewById(R.id.listaTareas);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         listaTareas.setLayoutManager(layoutManager);
@@ -88,6 +93,36 @@ public class ListadoTareas extends AppCompatActivity  {
 
         registerForContextMenu(listaTareas);
     }
+    ActivityResultContract<Intent, ActivityResult> contract = new ActivityResultContracts.StartActivityForResult();
+
+    ActivityResultCallback<ActivityResult> respuesta = new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if (result.getResultCode() == Activity.RESULT_OK){
+                Intent intent = result.getData();
+                Tarea tarea = (Tarea) intent.getSerializableExtra("tarea");
+                tareaList.add(indiceTarea,tarea);
+                updateUI();
+
+
+            }
+        }
+    };
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("tareas", (ArrayList<? extends Parcelable>) tareaList);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        tareaList = savedInstanceState.getParcelableArrayList("tareas");
+        tareaAdapter.setTareas(tareaList);
+    }
+
+
+    ActivityResultLauncher<Intent> launcher = registerForActivityResult(contract, respuesta);
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -122,10 +157,6 @@ public class ListadoTareas extends AppCompatActivity  {
         } else if (id == R.id.prioritarias) {
             mostrarPreferentes = !mostrarPreferentes; // Cambia el estado
             updateUI(); // Actualiza la vista
-            tareaAdapter.notifyDataSetChanged();
-
-            // Llama a la función que actualiza el menú para cambiar el ícono
-            invalidateOptionsMenu();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -177,7 +208,16 @@ public class ListadoTareas extends AppCompatActivity  {
             mostrarDialogoConfirmacionBorrado(tarea);
         }else if(itemId == R.id.editar_menu_item){
             Intent intent = new Intent(this, EditarTareaActivity.class);
+            indiceTarea = tareaList.indexOf(tarea);
             //pasar la tarea a la actividad de editar
+            viewModel.setTituloTarea(tarea.getTitulo());
+            viewModel.setFechaInicio(tarea.getFechaInicio());
+            viewModel.setPrioritaria(tarea.isPrioritaria());
+            viewModel.setProgreso(tarea.getProgreso());
+            viewModel.setFechaFinalizacion(tarea.getFechaFinal());
+            viewModel.setDescripcionTarea(tarea.getDescripcion());
+            viewModel.setPosicion(tareaList.indexOf(tarea));
+            tareaList.remove(tarea);
             launcher.launch(intent);
         }
 
@@ -188,12 +228,10 @@ public class ListadoTareas extends AppCompatActivity  {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Confirmar eliminación");
         builder.setMessage("¿Estás seguro de que quieres eliminar esta tarea? ("+tarea.getTitulo()+")");
-
         // Agregar botón de cancelar
         builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // El usuario ha cancelado la eliminación, no hacer nada
                 dialog.dismiss();
             }
         });
@@ -207,10 +245,8 @@ public class ListadoTareas extends AppCompatActivity  {
                 if (tarea.isPrioritaria()) {
                     tareasPreferentes.remove(tarea);
                 }
-
                 // Actualizar la interfaz de usuario
                 updateUI();
-
                 // Mostrar un Snackbar indicando que la tarea ha sido eliminada
                 showSnackbar("Tarea eliminada");
             }
@@ -219,8 +255,6 @@ public class ListadoTareas extends AppCompatActivity  {
         // Mostrar el diálogo
         builder.show();
     }
-
-
 
     private void showDescriptionDialog(String descripcion) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -238,38 +272,30 @@ public class ListadoTareas extends AppCompatActivity  {
 
 
     private void chargeList() {
-        Tarea tarea1 = new Tarea("Planificación del Proyecto", "Crear un plan detallado para el proyecto de desarrollo de software.", 20, "10/10/2023", "27/10/2023", true);
+        Tarea tarea1 = new Tarea("Planificación del Proyecto", "Crear un plan detallado para el proyecto de desarrollo de software.", 20, "10/10/2023", "27/11/2023", true);
         Tarea tarea2 = new Tarea("Revisión del Diseño", "Revisar y mejorar el diseño de la interfaz de usuario.", 50, "10/10/2023", "20/12/2023", false);
         Tarea tarea3 = new Tarea("Pruebas de Funcionalidad", "Realizar pruebas de funcionalidad en el módulo de usuario.", 100, "10/10/2023", "15/11/2023", false);
         Tarea tarea4 = new Tarea("Entrenamiento del Equipo", "Organizar una sesión de entrenamiento para el equipo de desarrollo.", 0, "10/10/2023", "20/11/2023", true);
-        Tarea tarea5 = new Tarea("Informe de Progreso", "Preparar un informe de progreso mensual para la alta dirección.", 30, "10/10/2023", "20/10/2023", true);
+        Tarea tarea5 = new Tarea("Informe de Progreso", "Preparar un informe de progreso mensual para la alta dirección.", 30, "10/10/2023", "30/12/2023", true);
+        Tarea tarea6 = new Tarea("Desarrollo de Funcionalidades", "Implementar nuevas funcionalidades en el software.", 80, "15/10/2023", "10/12/2023", false);
+        Tarea tarea7 = new Tarea("Reunión con el Cliente", "Concertar una reunión con el cliente para discutir requisitos adicionales.", 10, "18/10/2023", "25/11/2023", true);
+        Tarea tarea8 = new Tarea("Optimización de Código", "Revisar y optimizar el código existente para mejorar el rendimiento.", 60, "22/10/2023", "15/12/2023", false);
+        Tarea tarea9 = new Tarea("Configuración de Servidores", "Configurar los servidores necesarios para la implementación del sistema.", 100, "25/10/2023", "05/12/2023", true);
+
 
         tareaList.add(tarea1);
         tareaList.add(tarea2);
         tareaList.add(tarea3);
         tareaList.add(tarea4);
         tareaList.add(tarea5);
+        tareaList.add(tarea6);
+        tareaList.add(tarea7);
+
         for (Tarea t:tareaList) {
             if(t.isPrioritaria())
                 tareasPreferentes.add(t);
         }
     }
 
-    ActivityResultContract<Intent, ActivityResult> contract = new ActivityResultContracts.StartActivityForResult();
 
-    ActivityResultCallback<ActivityResult> respuesta = new ActivityResultCallback<ActivityResult>() {
-        @Override
-        public void onActivityResult(ActivityResult result) {
-            if (result.getResultCode() == Activity.RESULT_OK){
-                Intent intent = result.getData();
-                Tarea tarea = (Tarea) intent.getSerializableExtra("tarea");
-                tareaList.add(tarea);
-                updateUI();
-                tareaAdapter.notifyDataSetChanged();
-
-            }
-        }
-    };
-
-    ActivityResultLauncher<Intent> launcher = registerForActivityResult(contract, respuesta);
 }

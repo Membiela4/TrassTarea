@@ -1,12 +1,10 @@
 package com.example.tareaut02.fragments;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -30,7 +28,7 @@ import java.util.Calendar;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link FirstFragment#newInstance} factory method to
+ * Use the  factory method to
  * create an instance of this fragment.
  */
 public class FirstFragment extends Fragment {
@@ -40,11 +38,12 @@ public class FirstFragment extends Fragment {
     private String fechaObjetivo;
     private boolean prioritaria;
     private int progreso;
-    MyViewModel sharedViewModel;
+    MyViewModel viewModel;
     TextView txtTitulo,fechaInicioDate, fechaObjetivoDate;
     Spinner spinnerProgreso;
      CheckBox checkBoxPrioritaria;
     Button btnNext;
+    Button btnBack;
 
     public FirstFragment() {
         // Required empty public constructor
@@ -52,6 +51,8 @@ public class FirstFragment extends Fragment {
 
     public interface OnNextBtnClicked{
        public void btnSiguiente();
+       public void btnCancelar();
+       
     }
 
     public OnNextBtnClicked comunicador1;
@@ -65,19 +66,20 @@ public class FirstFragment extends Fragment {
             throw new ClassCastException();
     }
 
-    public static FirstFragment newInstance() {
-        FirstFragment fragment = new FirstFragment();
-        Bundle args = new Bundle();
+    private void loadDatos(){
+        txtTitulo.setText(viewModel.getTituloTarea().getValue());
+        fechaInicioDate.setText(viewModel.getFechaInicio().getValue());
+        fechaObjetivoDate.setText(viewModel.getFechaFinalizacion().getValue());
 
-        fragment.setArguments(args);
-        return fragment;
+        if(viewModel.getTareaPrioritaria().getValue() == true){ checkBoxPrioritaria.setChecked(true);}else{checkBoxPrioritaria.setChecked(false);}
 
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedViewModel = new ViewModelProvider(requireActivity()).get(MyViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(MyViewModel.class);
+
     }
 
     private void next(View view) {
@@ -115,14 +117,14 @@ public class FirstFragment extends Fragment {
             SecondFragment fragmentSecond = new SecondFragment();
 
 
-            sharedViewModel.setTituloTarea(tituloTarea);
-            sharedViewModel.setFechaInicio(fechaInicio);
-            sharedViewModel.setFechaFinalizacion(fechaObjetivo);
-            sharedViewModel.setProgreso(progreso);
-            sharedViewModel.setPrioritaria(prioritaria);
+            viewModel.setTituloTarea(tituloTarea);
+            viewModel.setFechaInicio(fechaInicio);
+            viewModel.setFechaFinalizacion(fechaObjetivo);
+            viewModel.setProgreso(progreso);
+            viewModel.setPrioritaria(prioritaria);
 
             // Reemplaza el fragmento actual con el fragmento_second
-            fragmentTransaction.replace(R.id.fragmentContainerView, fragmentSecond);
+            fragmentTransaction.replace(R.id.fragment_container_editar, fragmentSecond);
             fragmentTransaction.commit();
 
         } else {
@@ -190,11 +192,12 @@ public class FirstFragment extends Fragment {
         });
         checkBoxPrioritaria = view.findViewById(R.id.chechbox_prioritaria);
         btnNext = view.findViewById(R.id.button_next);
+        btnBack = view.findViewById(R.id.back_btn);
+
 
         spinnerProgreso = view.findViewById(R.id.spinner_progreso);
         // Datos para el Spinner
         String[] opciones = {"0%", "25%", "50%", "75%", "100%"};
-        // Crear el ArrayAdapter y configurarlo
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, opciones);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Asignar el adaptador al Spinner
@@ -203,7 +206,14 @@ public class FirstFragment extends Fragment {
             next(view);
             comunicador1.btnSiguiente();
         });
+        btnBack.setOnClickListener(v -> {
+            comunicador1.btnCancelar();
+        });
+
+
 
         return view;
     }
+
+
 }

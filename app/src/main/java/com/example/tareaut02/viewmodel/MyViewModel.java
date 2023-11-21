@@ -17,6 +17,19 @@ public class MyViewModel extends ViewModel {
     private final MutableLiveData<String> fechaObjetivo = new MutableLiveData<>();
     private final MutableLiveData<Integer> progreso = new MutableLiveData<>();
 
+    private final MutableLiveData<Integer> posicion = new MutableLiveData<>();
+
+        private MutableLiveData<Tarea> tareaEditada = new MutableLiveData<>();
+
+        public void setTareaEditada(Tarea tarea) {
+            tareaEditada.setValue(tarea);
+        }
+
+        public LiveData<Tarea> getTareaEditada() {
+            return tareaEditada;
+        }
+
+    public void setPosicion(Integer posicion){this.posicion.setValue(posicion);}
     public void setTituloTarea(String tituloTarea)
     {
         this.titulo.setValue(tituloTarea);
@@ -35,6 +48,7 @@ public class MyViewModel extends ViewModel {
     {
         this.fechaObjetivo.setValue(fechaFinalizacion);
     }
+
     public void setProgreso(Integer progreso)
     {
         this.progreso.setValue(progreso);
@@ -50,6 +64,7 @@ public class MyViewModel extends ViewModel {
     public MutableLiveData<Integer> getProgreso() {
         return progreso;
     }
+    public MutableLiveData<Integer> getPosicion(){return posicion;}
 
 
 }

@@ -9,9 +9,8 @@
     import android.app.Activity;
     import android.content.Intent;
     import android.os.Bundle;
+    import android.os.Parcelable;
     import android.util.Log;
-    import android.view.View;
-    import android.widget.Button;
 
     import com.example.tareaut02.R;
     import com.example.tareaut02.fragments.FirstFragment;
@@ -34,7 +33,7 @@
             firstFragment = new FirstFragment();
             secondFragment = new SecondFragment();
             fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().add(R.id.fragmentContainerView,firstFragment).commit();
+            fragmentManager.beginTransaction().add(R.id.fragment_container_editar,firstFragment).commit();
 
         }
 
@@ -45,7 +44,7 @@
                      , vm.getFechaFinalizacion(), vm.getTareaPrioritaria());
             // Llamada al método de la interfaz para pasar la nueva tarea a la actividad
             Intent intent = new Intent(this,ListadoTareas.class);
-            intent.putExtra("tarea",newTask);
+            intent.putExtra("tarea", (Parcelable) newTask);
             if(newTask!=null){
                 setResult(Activity.RESULT_OK,intent);
                 finish();
@@ -57,15 +56,21 @@
         public void onBack() {
             if (secondFragment.isAdded()) {
                 // Si el segundo fragmento está agregado, realiza una transacción para mostrar el primer fragmento
-                fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, firstFragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.fragment_container_editar, firstFragment).commit();
             } else {
                 // Si el segundo fragmento no está agregado, muestra un log o realiza alguna acción de depuración
                 Log.e(TAG, "onBack: SecondFragment no está agregado");
             }
         }
+
         @Override
         public void btnSiguiente() {
             if (!secondFragment.isAdded())
-                fragmentManager.beginTransaction().replace(R.id.fragmentContainerView,secondFragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.fragment_container_editar,secondFragment).commit();
+        }
+
+        @Override
+        public void btnCancelar() {
+            finish();
         }
     }

@@ -119,9 +119,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/nextBtn"
-        app:layout_constraintTop_toBottomOf="@+id/chechbox_prioritaria"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chechbox_prioritaria"
+        app:layout_constraintVertical_bias="0.003" />
 
     <Button
         android:id="@+id/back_btn"
@@ -130,7 +133,9 @@
         android:text="@string/backBtn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_next" />
+        app:layout_constraintTop_toBottomOf="@+id/button_next"
+        app:layout_constraintVertical_bias="0.346" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
