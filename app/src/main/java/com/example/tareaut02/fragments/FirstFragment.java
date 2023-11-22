@@ -55,6 +55,41 @@ public class FirstFragment extends Fragment {
        
     }
 
+    public void setValores(){
+        txtTitulo.setText(viewModel.getTituloTarea().getValue());
+        fechaInicioDate.setText(viewModel.getFechaInicio().getValue());
+        fechaObjetivoDate.setText(viewModel.getFechaFinalizacion().getValue());
+        if(viewModel.getProgreso().getValue()!=null){
+            switch (viewModel.getProgreso().getValue()) {
+                case 0:
+                    spinnerProgreso.setSelection(0);
+                    break;
+                case 25:
+                    spinnerProgreso.setSelection(1);
+                    break;
+                case 50:
+                    spinnerProgreso.setSelection(2);
+                    break;
+                case 75:
+                    spinnerProgreso.setSelection(3);
+                    break;
+                case 100:
+                    spinnerProgreso.setSelection(4);
+                    break;
+                // Puedes manejar otros valores o casos según sea necesario
+                default:
+                    spinnerProgreso.setSelection(0);
+            }
+        }
+
+
+        if (viewModel.getTareaPrioritaria().getValue() != null && viewModel.getTareaPrioritaria().getValue()) {
+            checkBoxPrioritaria.setChecked(true);
+        } else {
+            checkBoxPrioritaria.setChecked(false);
+        }
+    }
+
     public OnNextBtnClicked comunicador1;
 
     @Override
@@ -64,15 +99,6 @@ public class FirstFragment extends Fragment {
             comunicador1 = (OnNextBtnClicked) context;
         else
             throw new ClassCastException();
-    }
-
-    private void loadDatos(){
-        txtTitulo.setText(viewModel.getTituloTarea().getValue());
-        fechaInicioDate.setText(viewModel.getFechaInicio().getValue());
-        fechaObjetivoDate.setText(viewModel.getFechaFinalizacion().getValue());
-
-        if(viewModel.getTareaPrioritaria().getValue() == true){ checkBoxPrioritaria.setChecked(true);}else{checkBoxPrioritaria.setChecked(false);}
-
     }
 
     @Override
@@ -122,6 +148,7 @@ public class FirstFragment extends Fragment {
             viewModel.setFechaFinalizacion(fechaObjetivo);
             viewModel.setProgreso(progreso);
             viewModel.setPrioritaria(prioritaria);
+
 
             // Reemplaza el fragmento actual con el fragmento_second
             fragmentTransaction.replace(R.id.fragment_container_editar, fragmentSecond);
@@ -209,6 +236,8 @@ public class FirstFragment extends Fragment {
         btnBack.setOnClickListener(v -> {
             comunicador1.btnCancelar();
         });
+
+        setValores();
 
 
 

@@ -35,6 +35,18 @@ public class EditarTareaActivity extends AppCompatActivity implements SecondFrag
         secondFragment = new SecondFragment();
         fragmentManager = getSupportFragmentManager();
 
+        if (getIntent().hasExtra("tarea")) {
+            Tarea tarea = getIntent().getParcelableExtra("tarea");
+            if (tarea != null) {
+                // Configurar los valores en el ViewModel
+                vm.setTituloTarea(tarea.getTitulo());
+                vm.setFechaInicio(tarea.getFechaInicio());
+                vm.setPrioritaria(tarea.isPrioritaria());
+                vm.setProgreso(tarea.getProgreso());
+                vm.setFechaFinalizacion(tarea.getFechaFinal());
+                vm.setDescripcionTarea(tarea.getDescripcion());
+            }
+        }
 
         // Asegúrate de que el primer fragmento esté añadido solo si savedInstanceState es nulo
         if (savedInstanceState == null) {

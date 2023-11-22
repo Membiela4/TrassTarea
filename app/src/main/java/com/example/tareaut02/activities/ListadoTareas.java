@@ -223,16 +223,11 @@ public class ListadoTareas extends AppCompatActivity  {
         }else if(itemId == R.id.editar_menu_item){
             Intent intent = new Intent(this, EditarTareaActivity.class);
             indiceTarea = tareaList.indexOf(tarea);
-            //pasar la tarea a la actividad de editar
-            viewModel.setTituloTarea(tarea.getTitulo());
-            viewModel.setFechaInicio(tarea.getFechaInicio());
-            viewModel.setPrioritaria(tarea.isPrioritaria());
-            viewModel.setProgreso(tarea.getProgreso());
-            viewModel.setFechaFinalizacion(tarea.getFechaFinal());
-            viewModel.setDescripcionTarea(tarea.getDescripcion());
-            viewModel.setPosicion(tareaList.indexOf(tarea));
-            tareaList.remove(tarea);
+            Intent intentEditar = new Intent(this, EditarTareaActivity.class);
+            intent.putExtra("tarea", (Parcelable) tarea);
             launcher.launch(intent);
+            tareaList.remove(tarea);
+
         }
 
         return super.onContextItemSelected(item);
