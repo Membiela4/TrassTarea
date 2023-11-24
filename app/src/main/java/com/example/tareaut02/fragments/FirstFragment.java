@@ -2,14 +2,18 @@ package com.example.tareaut02.fragments;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.os.Parcelable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,8 +56,9 @@ public class FirstFragment extends Fragment {
     public interface OnNextBtnClicked{
        public void btnSiguiente();
        public void btnCancelar();
-       
+
     }
+
 
     public void setValores(){
         txtTitulo.setText(viewModel.getTituloTarea().getValue());
@@ -76,14 +81,14 @@ public class FirstFragment extends Fragment {
                 case 100:
                     spinnerProgreso.setSelection(4);
                     break;
-                // Puedes manejar otros valores o casos según sea necesario
+
                 default:
                     spinnerProgreso.setSelection(0);
             }
         }
 
 
-        if (viewModel.getTareaPrioritaria().getValue() != null && viewModel.getTareaPrioritaria().getValue()) {
+        if (viewModel.getTareaPrioritaria().getValue() != null && viewModel.getTareaPrioritaria().getValue() ==true) {
             checkBoxPrioritaria.setChecked(true);
         } else {
             checkBoxPrioritaria.setChecked(false);
@@ -108,14 +113,16 @@ public class FirstFragment extends Fragment {
 
     }
 
+
+
     private void next(View view) {
-        if (txtTitulo.getText() != null && fechaInicioDate.getText() != null && fechaObjetivoDate.getText() != null && String.valueOf(spinnerProgreso.getSelectedItem()) != null) {
+        String tituloTarea = txtTitulo.getText().toString();
+        String fechaInicio = fechaInicioDate.getText().toString();
+        String fechaObjetivo = fechaObjetivoDate.getText().toString();
 
-            tituloTarea = txtTitulo.getText().toString();
-            fechaInicio = fechaInicioDate.getText().toString();
-            fechaObjetivo = fechaObjetivoDate.getText().toString();
-
-            switch(spinnerProgreso.getSelectedItemPosition()) {
+        if (!TextUtils.isEmpty(tituloTarea) && !TextUtils.isEmpty(fechaInicio) && !TextUtils.isEmpty(fechaObjetivo)) {
+            int progreso;
+            switch (spinnerProgreso.getSelectedItemPosition()) {
                 case 0:
                     progreso = 0;
                     break;
@@ -131,17 +138,16 @@ public class FirstFragment extends Fragment {
                 case 4:
                     progreso = 100;
                     break;
+                default:
+                    progreso = 0; // Definir un valor por defecto si no coincide con ninguna opción
+                    break;
             }
-            if (checkBoxPrioritaria.isChecked())
-                prioritaria = true;
-            else
-                prioritaria = false;
 
+            boolean prioritaria = checkBoxPrioritaria.isChecked();
 
             FragmentManager fragmentManager = getParentFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             SecondFragment fragmentSecond = new SecondFragment();
-
 
             viewModel.setTituloTarea(tituloTarea);
             viewModel.setFechaInicio(fechaInicio);
@@ -149,17 +155,14 @@ public class FirstFragment extends Fragment {
             viewModel.setProgreso(progreso);
             viewModel.setPrioritaria(prioritaria);
 
-
             // Reemplaza el fragmento actual con el fragmento_second
             fragmentTransaction.replace(R.id.fragment_container_editar, fragmentSecond);
             fragmentTransaction.commit();
-
         } else {
-            Toast toast = new Toast(this.getContext());
-            toast.setText("INTRODUCE TODOS LOS VALORES");
-            toast.show();
+            Toast.makeText(getContext(), "INTRODUCE TODOS LOS VALORES", Toast.LENGTH_SHORT).show();
         }
     }
+
 
 
     public void mostrarDatePicker(View view) {
@@ -199,36 +202,42 @@ public class FirstFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_add_task_first,container,false);
-        super.onViewCreated(view, savedInstanceState);
+        View view = inflater.inflate(R.layout.fragment_add_task_first, container, false);
+
+
+
         txtTitulo = view.findViewById(R.id.tv_titulo);
         fechaInicioDate = view.findViewById(R.id.fecha_inicio_datepicker);
         fechaObjetivoDate = view.findViewById(R.id.fecha_objetivo_date_picker);
-        fechaInicioDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mostrarDatePicker(fechaInicioDate);
-            }
-        });
-
-        fechaObjetivoDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mostrarDatePicker(fechaObjetivoDate);
-            }
-        });
         checkBoxPrioritaria = view.findViewById(R.id.chechbox_prioritaria);
         btnNext = view.findViewById(R.id.button_next);
         btnBack = view.findViewById(R.id.back_btn);
-
-
         spinnerProgreso = view.findViewById(R.id.spinner_progreso);
+
         // Datos para el Spinner
         String[] opciones = {"0%", "25%", "50%", "75%", "100%"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, opciones);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Asignar el adaptador al Spinner
         spinnerProgreso.setAdapter(adapter);
+
+        // Restaurar el estado si hay un estado guardado
+        if (savedInstanceState != null) {
+            txtTitulo.setText(savedInstanceState.getString("titulo", ""));
+            fechaInicioDate.setText(savedInstanceState.getString("fechaInicio", ""));
+            fechaObjetivoDate.setText(savedInstanceState.getString("fechaFinal", ""));
+
+            int progresoIndex = savedInstanceState.getInt("progreso", 0);
+            spinnerProgreso.setSelection(progresoIndex);
+
+            boolean esPrioritaria = savedInstanceState.getBoolean("prioritaria", false);
+            checkBoxPrioritaria.setChecked(esPrioritaria);
+            // Restaurar otros datos según sea necesario
+        }
+
+        fechaInicioDate.setOnClickListener(v -> mostrarDatePicker(fechaInicioDate));
+        fechaObjetivoDate.setOnClickListener(v -> mostrarDatePicker(fechaObjetivoDate));
+
         btnNext.setOnClickListener(v -> {
             next(view);
             comunicador1.btnSiguiente();
@@ -239,10 +248,46 @@ public class FirstFragment extends Fragment {
 
         setValores();
 
-
-
         return view;
+
     }
+
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        // Guardar el texto actual de los TextView en el Bundle
+        outState.putString("titulo", txtTitulo.getText().toString());
+        outState.putString("fechaInicio", fechaInicioDate.getText().toString());
+        outState.putString("fechaFinal", fechaObjetivoDate.getText().toString());
+        outState.putInt("progreso",spinnerProgreso.getSelectedItemPosition());
+        outState.putBoolean("prioritaria",checkBoxPrioritaria.isChecked());
+        // Guardar otros datos que puedan ser necesarios
+    }
+
+
+
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+
+        // Restaurar el estado de los TextView si hay un estado guardado
+        if (savedInstanceState != null) {
+            txtTitulo.setText(savedInstanceState.getString("titulo", ""));
+            fechaInicioDate.setText(savedInstanceState.getString("fechaInicio", ""));
+            fechaObjetivoDate.setText(savedInstanceState.getString("fechaFinal", ""));
+
+            int progresoIndex = savedInstanceState.getInt("progreso", 0);
+            spinnerProgreso.setSelection(progresoIndex);
+
+            boolean esPrioritaria = savedInstanceState.getBoolean("prioritaria", false);
+            checkBoxPrioritaria.setChecked(esPrioritaria);
+            // Restaurar otros datos según sea necesario
+        }
+    }
+
 
 
 }

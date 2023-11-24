@@ -11,6 +11,12 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 
 public class Tarea implements Parcelable, Serializable {
     private String titulo;
@@ -26,6 +32,7 @@ public class Tarea implements Parcelable, Serializable {
         this.progreso = progreso.getValue();
         this.fechaInicio = fechaInicio.getValue();
         this.fechaFinal = fechaFinalizacion.getValue();
+        this.prioritaria = tareaPrioritaria.getValue();
     }
 
     protected Tarea(Parcel in) {
@@ -117,9 +124,9 @@ public class Tarea implements Parcelable, Serializable {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
         try {
-            // Obtiene la fecha actual
-            Date fechaActual = new Date();
-            // Convierte la fecha objetivo de String a Date
+
+            Calendar calendarActual = new GregorianCalendar();
+            Date fechaActual = calendarActual.getTime();
             Date fechaObjetivoDate = sdf.parse(fechaObjetivo);
 
             // Calcula la diferencia en milisegundos
@@ -127,7 +134,6 @@ public class Tarea implements Parcelable, Serializable {
 
             // Convierte la diferencia de milisegundos a días
             int diasRestantes = (int) (diferenciaEnMilisegundos / (1000 * 60 * 60 * 24));
-
             return diasRestantes;
         } catch (ParseException e) {
             e.printStackTrace();

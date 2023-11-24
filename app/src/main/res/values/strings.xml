@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">TrassTarea</string>
     <string name="startBtn">"Empezar</string>
     <string name="acerca_de">Acerca de...</string>
     <string name="salir">Salir</string>
@@ -24,5 +23,6 @@
     <string name="crearTareabtn">Crear Tarea</string>
     <string name="volverBtn">Volver</string>
     <string name="editarTareaLabel">Editar Tarea</string>
+    <string name="app_name">TrassTarea</string>
 
 </resources>

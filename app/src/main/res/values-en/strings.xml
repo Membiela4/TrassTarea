@@ -1,0 +1,29 @@
+<resources>
+    <string name="startBtn">"Start</string>
+    <string name="acerca_de">About</string>
+    <string name="salir">Exit</string>
+    <string name="crearTarea">Create Task</string>
+    <string name="prioritarias">Priorities</string>
+    <string name="tituloTarea">Task Title</string>
+    <string name="descripcionTarea">Task Description</string>
+    <string name="tiempoRestante">Remaining </string>
+    <string name="numDiasRestante">days</string>
+    <string name="noTareas">There are no tasks at the moment</string>
+    <string name="tituloAddtarea">Add Task</string>
+    <string name="backBtn">Cancel</string>
+    <string name="nextBtn">Next</string>
+    <string name="fechaObjetivo">Final Date</string>
+    <string name="fechaInicio">Start Date</string>
+    <string name="progressSpinner">Progress</string>
+    <string name="prioritariaCheckBox">¿Priority?</string>
+    <string name="descripcionMenuContextual">Description</string>
+    <string name="borrarMenuContextual">Delete</string>
+    <string name="editarMenuContextual">Edit</string>
+    <string name="insertaDescripcion">Write a description</string>
+    <string name="crearTareabtn">Create Task</string>
+    <string name="volverBtn">Back</string>
+    <string name="editarTareaLabel">Edit Task</string>
+    <string name="app_name">TrassTarea</string>
+
+
+</resources>

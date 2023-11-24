@@ -15,7 +15,7 @@ import com.example.tareaut02.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    Lottie lottie;
+
     Button startBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

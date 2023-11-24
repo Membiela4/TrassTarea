@@ -6,9 +6,6 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.tareaut02.model.Tarea;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MyViewModel extends ViewModel {
     private final MutableLiveData<String> titulo = new MutableLiveData<>();
     private final MutableLiveData<Boolean> prioritaria = new MutableLiveData<>();
@@ -34,10 +31,10 @@ public class MyViewModel extends ViewModel {
     {
         this.titulo.setValue(tituloTarea);
     }
-    public void setPrioritaria(Boolean prioritaria)
-    {
+    public void setPrioritaria(Boolean prioritaria) {
         this.prioritaria.setValue(prioritaria);
     }
+
     public void setDescripcionTarea(String descripcionTarea)
     {
         this.descripcion.setValue(descripcionTarea);

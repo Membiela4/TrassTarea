@@ -8,9 +8,12 @@
 
     import android.app.Activity;
     import android.content.Intent;
+    import android.content.res.Configuration;
     import android.os.Bundle;
     import android.os.Parcelable;
+    import android.text.TextUtils;
     import android.util.Log;
+    import android.widget.Toast;
 
     import com.example.tareaut02.R;
     import com.example.tareaut02.fragments.FirstFragment;
@@ -55,7 +58,7 @@
         @Override
         public void onBack() {
             if (secondFragment.isAdded()) {
-                // Si el segundo fragmento está agregado, realiza una transacción para mostrar el primer fragmento
+             
                 fragmentManager.beginTransaction().replace(R.id.fragment_container_editar, firstFragment).commit();
             } else {
                 // Si el segundo fragmento no está agregado, muestra un log o realiza alguna acción de depuración
@@ -65,8 +68,21 @@
 
         @Override
         public void btnSiguiente() {
-            if (!secondFragment.isAdded())
-                fragmentManager.beginTransaction().replace(R.id.fragment_container_editar,secondFragment).commit();
+            // Obtener los valores actuales de los campos desde el ViewModel
+            String tituloTarea = vm.getTituloTarea().getValue();
+            String fechaInicio = vm.getFechaInicio().getValue();
+            String fechaObjetivo = vm.getFechaFinalizacion().getValue();
+
+            // Verificar si los campos están vacíos
+            if (TextUtils.isEmpty(tituloTarea) || TextUtils.isEmpty(fechaInicio) || TextUtils.isEmpty(fechaObjetivo)) {
+                // Mostrar un mensaje indicando que los campos están vacíos
+                Toast.makeText(this, "Completa todos los campos antes de avanzar", Toast.LENGTH_SHORT).show();
+            } else {
+                // Realizar la transacción del fragmento solo si los campos no están vacíos
+                if (!secondFragment.isAdded()) {
+                    fragmentManager.beginTransaction().replace(R.id.fragment_container_editar, secondFragment).commit();
+                }
+            }
         }
 
         @Override

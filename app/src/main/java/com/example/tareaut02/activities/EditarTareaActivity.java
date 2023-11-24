@@ -4,6 +4,7 @@ import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
@@ -55,6 +56,9 @@ public class EditarTareaActivity extends AppCompatActivity implements SecondFrag
         }
 
     }
+
+
+
 
     @Override
     public void onTaskCreated() {

@@ -16,18 +16,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.example.tareaut02.R;
@@ -107,6 +103,9 @@ public class ListadoTareas extends AppCompatActivity  {
                 Intent intent = result.getData();
                 Tarea tarea = (Tarea) intent.getSerializableExtra("tarea");
                 tareaList.add(indiceTarea,tarea);
+                if(tarea.isPrioritaria()){
+                    tareasPreferentes.add(tarea);
+                }
                 updateUI();
 
 
@@ -223,10 +222,10 @@ public class ListadoTareas extends AppCompatActivity  {
         }else if(itemId == R.id.editar_menu_item){
             Intent intent = new Intent(this, EditarTareaActivity.class);
             indiceTarea = tareaList.indexOf(tarea);
-            Intent intentEditar = new Intent(this, EditarTareaActivity.class);
             intent.putExtra("tarea", (Parcelable) tarea);
             launcher.launch(intent);
             tareaList.remove(tarea);
+
 
         }
 
@@ -281,14 +280,14 @@ public class ListadoTareas extends AppCompatActivity  {
 
 
     private void chargeList() {
-        Tarea tarea1 = new Tarea("Planificación del Proyecto", "Crear un plan detallado para el proyecto de desarrollo de software.", 20, "10/10/2023", "27/11/2023", true);
+        Tarea tarea1 = new Tarea("Planificación del Proyecto", "Crear un plan detallado para el proyecto de desarrollo de software.", 25, "10/10/2023", "27/11/2023", true);
         Tarea tarea2 = new Tarea("Revisión del Diseño", "Revisar y mejorar el diseño de la interfaz de usuario.", 50, "10/10/2023", "20/12/2023", false);
         Tarea tarea3 = new Tarea("Pruebas de Funcionalidad", "Realizar pruebas de funcionalidad en el módulo de usuario.", 100, "10/10/2023", "15/11/2023", false);
         Tarea tarea4 = new Tarea("Entrenamiento del Equipo", "Organizar una sesión de entrenamiento para el equipo de desarrollo.", 0, "10/10/2023", "20/11/2023", true);
-        Tarea tarea5 = new Tarea("Informe de Progreso", "Preparar un informe de progreso mensual para la alta dirección.", 30, "10/10/2023", "30/12/2023", true);
-        Tarea tarea6 = new Tarea("Desarrollo de Funcionalidades", "Implementar nuevas funcionalidades en el software.", 80, "15/10/2023", "10/12/2023", false);
-        Tarea tarea7 = new Tarea("Reunión con el Cliente", "Concertar una reunión con el cliente para discutir requisitos adicionales.", 10, "18/10/2023", "25/11/2023", true);
-        Tarea tarea8 = new Tarea("Optimización de Código", "Revisar y optimizar el código existente para mejorar el rendimiento.", 60, "22/10/2023", "15/12/2023", false);
+        Tarea tarea5 = new Tarea("Informe de Progreso", "Preparar un informe de progreso mensual para la alta dirección.", 50, "10/10/2023", "30/12/2023", true);
+        Tarea tarea6 = new Tarea("Desarrollo de Funcionalidades", "Implementar nuevas funcionalidades en el software.", 75, "15/10/2023", "10/12/2023", false);
+        Tarea tarea7 = new Tarea("Reunión con el Cliente", "Concertar una reunión con el cliente para discutir requisitos adicionales.", 25, "18/10/2023", "25/11/2023", true);
+        Tarea tarea8 = new Tarea("Optimización de Código", "Revisar y optimizar el código existente para mejorar el rendimiento.", 50, "22/10/2023", "15/12/2023", false);
         Tarea tarea9 = new Tarea("Configuración de Servidores", "Configurar los servidores necesarios para la implementación del sistema.", 100, "25/10/2023", "05/12/2023", true);
 
 
