@@ -3,6 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/prioritarias"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/star_unfilled"
+        android:title="@string/prioritarias"
+        app:showAsAction="ifRoom|withText" />
+    <item
         android:id="@+id/menuCrearTarea"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -10,12 +17,10 @@
         android:title="@string/crearTarea"
         app:showAsAction="ifRoom|withText" />
     <item
-        android:id="@+id/prioritarias"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:icon="@drawable/star_unfilled"
-        android:title="@string/prioritarias"
-        app:showAsAction="ifRoom|withText" />
+    android:id="@+id/preferencias"
+    android:title="@string/preferencias"
+    />
+
     <item
         android:id="@+id/menuAcercaDe"
         android:layout_width="wrap_content"
@@ -26,4 +31,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:title="@string/salir" />
+
+
 </menu>

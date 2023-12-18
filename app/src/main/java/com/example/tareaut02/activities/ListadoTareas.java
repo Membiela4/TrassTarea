@@ -16,8 +16,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -47,6 +49,7 @@ public class ListadoTareas extends AppCompatActivity  {
     private int selectedTaskPosition = 0;
     private MyViewModel viewModel;
 
+    SharedPreferences preferencias;
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -63,6 +66,7 @@ public class ListadoTareas extends AppCompatActivity  {
 
         tareaAdapter = new TareaAdapter(this, tareaList);
         listaTareas.setAdapter(tareaAdapter);
+        preferencias = PreferenceManager.getDefaultSharedPreferences(this);
 
         chargeList();
         updateUI();
@@ -158,6 +162,10 @@ public class ListadoTareas extends AppCompatActivity  {
             // Realiza la acción de salida o cierre de la aplicación
             finishAffinity();
             return true;
+
+        } else if (id== R.id.preferencias) {
+            startActivity(new Intent(this, PreferenciasActivity.class));
+
         } else if (id == R.id.prioritarias) {
             mostrarPreferentes = !mostrarPreferentes; // Cambia el estado
             updateUI(); // Actualiza la vista

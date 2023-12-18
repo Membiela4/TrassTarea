@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="fuentes" >
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </array>
+
+    <array name="criterio" >
+        <item>Fecha</item>
+        <item>2</item>
+        <item>3</item>
+    </array>
+</resources>

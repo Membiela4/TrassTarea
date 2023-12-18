@@ -24,6 +24,15 @@
     <string name="volverBtn">Back</string>
     <string name="editarTareaLabel">Edit Task</string>
     <string name="app_name">TrassTarea</string>
+    <string name="preferencias">Preferences</string>
+    <string name="categoriaVisualizacion">Visivility</string>
+    <string name="categoriaOrdenacion">Show</string>
+    <string name="categoriaAlmacenamiento">Storage</string>
+    <string name="categoriaRestablecer">Restart</string>
+    <string name="fuente">Font size</string>
+    <string name="tema">Theme</string>
+    <string name="criterio">Criterio</string>
+    <string name="orden">Orden</string>
 
 
 </resources>

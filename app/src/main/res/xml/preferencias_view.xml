@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/categoriaRestablecer">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="switch_tema"
+            android:title="@string/tema" />
+        <ListPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="2"
+            android:title="@string/fuente"
+            android:entryValues="@array/fuentes"
+            android:entries="@array/fuentes"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/categoriaOrdenacion">
+
+        <ListPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="0"
+            android:title="@string/criterio"
+            app:entries="@array/criterio"
+            app:entryValues="@array/criterio" />
+        <SwitchPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="false"
+            android:title="Asc || Desc"
+            app:key="switch_orden" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/categoriaAlmacenamiento">
+
+        <CheckBoxPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="false"
+            android:title="@string/almacenamientoSd"
+            app:key="check_sd" />
+    </PreferenceCategory>
+    <EditTextPreference
+        android:defaultValue="Default value"
+        android:key="numdias_limpieza"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/limpiezaArchivos" />
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="switch_bbdd"
+        android:title="@string/bbdd" />
+    <PreferenceCategory
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/bbdd">
+
+        <EditTextPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="Default value"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/nombreBbdd"
+            app:key="nombre" />
+        <EditTextPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="Default value"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/ipBbdd"
+            app:key="ip" />
+        <EditTextPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="Default value"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/puertoBbdd"
+            app:key="puerto" />
+        <EditTextPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="Default value"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/usuarioBbdd"
+            app:key="usuario" />
+        <EditTextPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="Default value"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/contrasenaBbdd"
+            app:key="contrasenya" />
+    </PreferenceCategory>
+    <Preference
+        android:key="boton_restablecer"
+        android:widgetLayout="@layout/custom_preference_button" />
+</PreferenceScreen>

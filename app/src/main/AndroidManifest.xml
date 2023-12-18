@@ -22,6 +22,8 @@
             android:name=".activities.ListadoTareas"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true" />
+        <activity android:name=".activities.PreferenciasActivity"
+            android:exported="true"/>
         <activity
             android:name=".activities.MainActivity"
             android:exported="true">

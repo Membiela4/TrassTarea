@@ -24,5 +24,22 @@
     <string name="volverBtn">Volver</string>
     <string name="editarTareaLabel">Editar Tarea</string>
     <string name="app_name">TrassTarea</string>
+    <string name="preferencias">Preferencias</string>
+    <string name="categoriaVisualizacion">Visualizacion</string>
+    <string name="categoriaOrdenacion">Ordenacion</string>
+    <string name="categoriaAlmacenamiento">Almacenamiento</string>
+    <string name="categoriaRestablecer">Restablecer</string>
+    <string name="fuente">Tamaño de fuente</string>
+    <string name="tema">Tema</string>
+    <string name="criterio">Criterio</string>
+    <string name="orden">Orden</string>
+    <string name="almacenamientoSd">Almacenamiento en tarjeta SD</string>
+    <string name="limpiezaArchivos">Limpieza de archivos</string>
+    <string name="bbdd">Base de datos externa</string>
+    <string name="nombreBbdd">Nombre Base de datos</string>
+    <string name="ipBbdd">IP</string>
+    <string name="usuarioBbdd">Usuario</string>
+    <string name="puertoBbdd">Puerto</string>
+    <string name="contrasenaBbdd">Contraseña</string>
 
 </resources>
