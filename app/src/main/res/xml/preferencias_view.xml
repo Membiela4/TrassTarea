@@ -15,9 +15,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:defaultValue="2"
-            android:title="@string/fuente"
+            android:entries="@array/fuentes"
             android:entryValues="@array/fuentes"
-            android:entries="@array/fuentes"/>
+            android:title="@string/fuente"
+            app:key="fuente_key" />
     </PreferenceCategory>
     <PreferenceCategory
         android:layout_width="wrap_content"
@@ -28,15 +29,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:defaultValue="0"
+            android:entries="@array/criterio_entries"
+            android:entryValues="@array/criterio_values"
             android:title="@string/criterio"
-            app:entries="@array/criterio"
-            app:entryValues="@array/criterio" />
+            app:key="criterio_key" />
         <SwitchPreference
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:defaultValue="false"
             android:title="Asc || Desc"
-            app:key="switch_orden" />
+            app:key="switch_orden_key" />
     </PreferenceCategory>
     <PreferenceCategory
         android:layout_width="wrap_content"

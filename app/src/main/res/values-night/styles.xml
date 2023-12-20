@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/darBlue</item>
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/ligthBlue</item>
         <item name="colorPrimaryDark">@color/yellow</item>
         <item name="android:fontFamily">@font/baloo_da</item>
     </style>
-
 </resources>

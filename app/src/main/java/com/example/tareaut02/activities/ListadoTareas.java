@@ -27,6 +27,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.tareaut02.R;
 import com.example.tareaut02.adapters.TareaAdapter;
@@ -70,6 +71,7 @@ public class ListadoTareas extends AppCompatActivity  {
 
         chargeList();
         updateUI();
+
 
         class MiViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
             public MiViewHolder(@NonNull View itemView) {
@@ -147,6 +149,28 @@ public class ListadoTareas extends AppCompatActivity  {
         return true;
     }
 
+    ActivityResultLauncher<Intent> preferenciasActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = result.getData();
+                    if (data != null) {
+                        boolean temaOscuro = data.getBooleanExtra("temaOscuro", true);
+                        aplicarTema(temaOscuro);
+                        Toast.makeText(this, "Valor de tema "+ temaOscuro, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+    );
+
+    private void aplicarTema(boolean valor){
+        if (!valor) {
+            setTheme(R.style.Base_Theme_TareaUT02Ligth);
+        } else {
+            setTheme(R.style.Base_Theme_TareaUT02Nigth);
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -164,7 +188,8 @@ public class ListadoTareas extends AppCompatActivity  {
             return true;
 
         } else if (id== R.id.preferencias) {
-            startActivity(new Intent(this, PreferenciasActivity.class));
+            Intent intent = new Intent(this, PreferenciasActivity.class);
+            preferenciasActivityResultLauncher.launch(intent);
 
         } else if (id == R.id.prioritarias) {
             mostrarPreferentes = !mostrarPreferentes; // Cambia el estado
@@ -180,6 +205,9 @@ public class ListadoTareas extends AppCompatActivity  {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+
     private void mostrarVentanaEmergente() {
         // Obtener el inflador de diseño
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);

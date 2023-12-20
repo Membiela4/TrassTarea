@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="fuentes" >
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
+        <item>Pequeña</item>
+        <item>Mediana</item>
+        <item>Grande</item>
     </array>
 
-    <array name="criterio" >
+    <array name="criterio_entries" >
         <item>Fecha</item>
-        <item>2</item>
-        <item>3</item>
+        <item>Orden</item>
+        <item>Prioritaria</item>
+    </array>
+
+    <array name="criterio_values" >
+        <item>Fecha</item>
+        <item>Orden</item>
+        <item>Prioritaria</item>
     </array>
 </resources>
