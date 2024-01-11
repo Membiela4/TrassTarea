@@ -1,10 +1,17 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.TareaUT02Ligth" parent="Theme.Material3.Light">
+    <style name="Base.Theme.ModoClaro" parent="Theme.AppCompat.DayNight">
 
         <item name="android:colorPrimary">@color/yellow</item>
         <item name="android:colorPrimaryDark">@color/darBlue</item>
         <item name="android:colorAccent">@color/black</item>
+    </style>
+
+    <style name="Base.Theme.ModoOscuro" parent="Theme.AppCompat.Dark">
+
+        <item name="android:colorPrimary">@color/black</item>
+        <item name="android:colorPrimaryDark">@color/darBlue</item>
+        <item name="android:colorAccent">#FFF</item>
     </style>
 
 

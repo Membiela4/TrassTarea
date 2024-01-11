@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:defaultValue="2"
             android:entries="@array/fuentes"
-            android:entryValues="@array/fuentes"
+            android:entryValues="@array/dimens"
             android:title="@string/fuente"
             app:key="fuente_key" />
     </PreferenceCategory>

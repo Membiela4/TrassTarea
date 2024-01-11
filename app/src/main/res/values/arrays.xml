@@ -6,6 +6,12 @@
         <item>Grande</item>
     </array>
 
+    <array name="dimens">
+        <item>small</item>
+        <item>medium</item>
+        <item>large</item>
+    </array>
+
     <array name="criterio_entries" >
         <item>Fecha</item>
         <item>Orden</item>
@@ -13,8 +19,8 @@
     </array>
 
     <array name="criterio_values" >
-        <item>Fecha</item>
-        <item>Orden</item>
-        <item>Prioritaria</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
     </array>
 </resources>

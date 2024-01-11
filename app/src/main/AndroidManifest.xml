@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/icono_aplicacion1"
         android:supportsRtl="true"
-        android:theme="@style/Base.Theme.TareaUT02Ligth"
+        android:theme="@style/Base.Theme.ModoClaro"
         tools:targetApi="31">
         <activity
             android:name=".activities.EditarTareaActivity"

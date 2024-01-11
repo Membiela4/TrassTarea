@@ -155,7 +155,8 @@ public class ListadoTareas extends AppCompatActivity  {
                 if (result.getResultCode() == Activity.RESULT_OK) {
                     Intent data = result.getData();
                     if (data != null) {
-                        boolean temaOscuro = data.getBooleanExtra("temaOscuro", true);
+                        SharedPreferences sharedPreferences = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
+                        boolean temaOscuro = sharedPreferences.getBoolean("temaOscuro", false);
                         aplicarTema(temaOscuro);
                         Toast.makeText(this, "Valor de tema "+ temaOscuro, Toast.LENGTH_SHORT).show();
                     }
@@ -165,9 +166,9 @@ public class ListadoTareas extends AppCompatActivity  {
 
     private void aplicarTema(boolean valor){
         if (!valor) {
-            setTheme(R.style.Base_Theme_TareaUT02Ligth);
+            setTheme(R.style.Base_Theme_ModoClaro);
         } else {
-            setTheme(R.style.Base_Theme_TareaUT02Nigth);
+            setTheme(R.style.Base_Theme_ModoOscuro);
         }
     }
 

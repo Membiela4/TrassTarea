@@ -1,4 +1,5 @@
 <resources>
+    <string name="textoComienzo">Your tasks, your rithm, your success</string>
     <string name="startBtn">"Start</string>
     <string name="acerca_de">About</string>
     <string name="salir">Exit</string>
@@ -33,6 +34,14 @@
     <string name="tema">Theme</string>
     <string name="criterio">Criterio</string>
     <string name="orden">Orden</string>
+    <string name="almacenamientoSd">SD Storage</string>
+    <string name="limpiezaArchivos">File cleaner</string>
+    <string name="bbdd">External Database</string>
+    <string name="nombreBbdd">Database name</string>
+    <string name="ipBbdd">IP</string>
+    <string name="usuarioBbdd">User</string>
+    <string name="puertoBbdd">Port</string>
+    <string name="contrasenaBbdd">Password</string>
 
 
 </resources>
