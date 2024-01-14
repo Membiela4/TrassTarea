@@ -19,6 +19,57 @@
         android:inputType="text"
         android:textColor="@color/yellow" />
 
+    <ImageButton
+        android:id="@+id/btn_document"
+        android:layout_width="138dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/ligthBlue"
+        android:src="@drawable/icons8_documento_50" />
+
+    <TextView
+        android:id="@+id/tv_document"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ImageButton
+        android:id="@+id/btn_image"
+        android:layout_width="138dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/ligthBlue"
+        android:src="@android:drawable/btn_star"
+        tools:src="@drawable/icons8_imagen_50" />
+
+    <TextView
+        android:id="@+id/tv_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ImageButton
+        android:id="@+id/btn_audio"
+        android:layout_width="138dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/ligthBlue"
+        android:src="@android:drawable/btn_star"
+        tools:src="@drawable/icons8_micr_fono_50" />
+
+    <TextView
+        android:id="@+id/tv_audio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ImageButton
+        android:id="@+id/btn_video"
+        android:layout_width="138dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/ligthBlue"
+        android:src="@android:drawable/btn_star"
+        tools:src="@drawable/icons8_v_deo_50" />
+
+    <TextView
+        android:id="@+id/tv_video"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <Button
         android:id="@+id/btn_add"
         android:layout_width="138dp"

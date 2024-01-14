@@ -17,7 +17,7 @@
     <string name="fechaInicio">Start Date</string>
     <string name="progressSpinner">Progress</string>
     <string name="prioritariaCheckBox">¿Priority?</string>
-    <string name="descripcionMenuContextual">Description</string>
+    <string name="descripcionMenuContextual">Details</string>
     <string name="borrarMenuContextual">Delete</string>
     <string name="editarMenuContextual">Edit</string>
     <string name="insertaDescripcion">Write a description</string>

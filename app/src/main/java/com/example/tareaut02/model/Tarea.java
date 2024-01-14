@@ -25,6 +25,55 @@ public class Tarea implements Parcelable, Serializable {
     private String fechaInicio;
     private String fechaFinal;
     private boolean prioritaria;
+    private String document_url;
+    private String image_url;
+    private String audio_url;
+    private String video_url;
+
+    public Tarea(MutableLiveData<String> tituloTarea, MutableLiveData<String> descripcionTarea, MutableLiveData<Integer> progreso, MutableLiveData<String> fechaInicio, MutableLiveData<String> fechaFinalizacion, MutableLiveData<Boolean> tareaPrioritaria, MutableLiveData<String> imageURL, MutableLiveData<String> documentURL) {
+        this.titulo = tituloTarea.getValue();
+        this.descripcion = descripcionTarea.getValue();
+        this.progreso = progreso.getValue();
+        this.fechaInicio = fechaInicio.getValue();
+        this.fechaFinal = fechaFinalizacion.getValue();
+        this.prioritaria = tareaPrioritaria.getValue();
+        this.image_url = imageURL.getValue();
+        this.document_url = documentURL.getValue();
+    }
+
+    public String getDocument_url() {
+        return document_url;
+    }
+
+    public void setDocument_url(String document_url) {
+        this.document_url = document_url;
+    }
+
+    public String getImage_url() {
+        return image_url;
+    }
+
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
+    }
+
+    public String getAudio_url() {
+        return audio_url;
+    }
+
+    public void setAudio_url(String audio_url) {
+        this.audio_url = audio_url;
+    }
+
+    public String getVideo_url() {
+        return video_url;
+    }
+
+    public void setVideo_url(String video_url) {
+        this.video_url = video_url;
+    }
+
+
 
     public Tarea(MutableLiveData<String> tituloTarea, MutableLiveData<String> descripcionTarea, MutableLiveData<Integer> progreso, MutableLiveData<String> fechaInicio, MutableLiveData<String> fechaFinalizacion, MutableLiveData<Boolean> tareaPrioritaria) {
         this.titulo = tituloTarea.getValue();

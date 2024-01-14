@@ -8,6 +8,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,6 +36,7 @@ import com.example.tareaut02.model.Tarea;
 import com.example.tareaut02.viewmodel.MyViewModel;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -253,7 +255,7 @@ public class ListadoTareas extends AppCompatActivity  {
         int itemId = item.getItemId();
         Tarea tarea = tareaAdapter.getTarea();
         if (itemId == R.id.descripcion_menu_item) {
-            showDescriptionDialog(tarea.getDescripcion());
+            showDescriptionDialog(tarea);
         } else if (itemId == R.id.borrar_menu_item) {
             mostrarDialogoConfirmacionBorrado(tarea);
         }else if(itemId == R.id.editar_menu_item){
@@ -301,15 +303,57 @@ public class ListadoTareas extends AppCompatActivity  {
         builder.show();
     }
 
-    private void showDescriptionDialog(String descripcion) {
+    private void showDescriptionDialog(Tarea tarea ) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Descripción")
-                .setMessage(descripcion)
+                .setMessage(tarea.getDescripcion())
                 .setPositiveButton("Aceptar", null);
+
+        if (tarea.getDocument_url() != null || tarea.getImage_url() != null) {
+            // Crea una lista para almacenar los archivos
+            List<File> archivos = new ArrayList<>();
+
+            // Accede a los archivos
+            if (tarea.getDocument_url() != null) {
+                File documento = new File(tarea.getDocument_url());
+                archivos.add(documento);
+            }
+
+            if (tarea.getImage_url() != null) {
+                File imagen = new File(tarea.getImage_url());
+                archivos.add(imagen);
+            }
+
+            for (File archivo : archivos) {
+                builder.setIcon(getIcon(archivo));
+            }
+        }
+
 
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
+
+    private int getIcon(File archivo) {
+        // Comprueba el tipo de archivo
+        String tipoArchivo = archivo.getAbsolutePath().substring(archivo.getAbsolutePath().lastIndexOf(".") + 1);
+
+        // Establece el icono
+        switch (archivo.getAbsolutePath().substring(archivo.getAbsolutePath().lastIndexOf(".") + 1)) {
+            case "pdf":
+                return R.drawable.icons8_documento_50;
+            case "docx":
+                return R.drawable.icons8_documento_50;
+            case "jpg":
+                return R.drawable.icons8_imagen_50;
+            case "png":
+                return R.drawable.icons8_imagen_50;
+            default:
+                return 0;
+        }
+    }
+
 
     private void showSnackbar(String message) {
         Snackbar.make(listaTareas, message, Snackbar.LENGTH_SHORT).show();

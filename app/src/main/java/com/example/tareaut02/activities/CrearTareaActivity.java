@@ -42,10 +42,16 @@
 
         @Override
         public void onTaskCreated() {
-            // Aquí debes obtener la información de la tarea desde tus vistas (EditText, etc.)
-             Tarea newTask = new Tarea(vm.getTituloTarea(), vm.getDescripcionTarea(), vm.getProgreso(), vm.getFechaInicio()
-                     , vm.getFechaFinalizacion(), vm.getTareaPrioritaria());
-            // Llamada al método de la interfaz para pasar la nueva tarea a la actividad
+
+            if(vm.getDocumentURL()!=null || vm.getImageURL()!=null){
+                Tarea newTask = new Tarea(vm.getTituloTarea(), vm.getDescripcionTarea(), vm.getProgreso(), vm.getFechaInicio()
+                        , vm.getFechaFinalizacion(), vm.getTareaPrioritaria(),vm.getImageURL(),vm.getDocumentURL());
+            }
+
+            Tarea newTask = new Tarea(vm.getTituloTarea(), vm.getDescripcionTarea(), vm.getProgreso(), vm.getFechaInicio()
+                    , vm.getFechaFinalizacion(), vm.getTareaPrioritaria());
+
+
             Intent intent = new Intent(this,ListadoTareas.class);
             intent.putExtra("tarea", (Parcelable) newTask);
             if(newTask!=null){

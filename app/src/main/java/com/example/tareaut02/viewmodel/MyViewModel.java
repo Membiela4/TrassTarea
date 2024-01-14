@@ -13,6 +13,10 @@ public class MyViewModel extends ViewModel {
     private final MutableLiveData<String> fechaInicio = new MutableLiveData<>();
     private final MutableLiveData<String> fechaObjetivo = new MutableLiveData<>();
     private final MutableLiveData<Integer> progreso = new MutableLiveData<>();
+    private final MutableLiveData<String> documentURL = new MutableLiveData<>();
+    private final MutableLiveData<String> imageURL = new MutableLiveData<>();
+    private final MutableLiveData<String> audioURL = new MutableLiveData<>();
+    private final MutableLiveData<String> videoURL = new MutableLiveData<>();
 
     private final MutableLiveData<Integer> posicion = new MutableLiveData<>();
 
@@ -51,6 +55,16 @@ public class MyViewModel extends ViewModel {
         this.progreso.setValue(progreso);
     }
 
+
+    public void setDocumentURL(String url) {
+        this.documentURL.setValue(url);
+    }
+
+    public void setImageURL(String url){
+            this.imageURL.setValue(url);
+    }
+
+
     public MutableLiveData<String> getTituloTarea() {
         return titulo;
     }
@@ -62,6 +76,13 @@ public class MyViewModel extends ViewModel {
         return progreso;
     }
     public MutableLiveData<Integer> getPosicion(){return posicion;}
+
+    public MutableLiveData<String> getDocumentURL() {return documentURL;}
+
+    public MutableLiveData<String> getImageURL() {return imageURL;}
+
+    public MutableLiveData<String> getAudioURL() {return audioURL;}
+    public MutableLiveData<String> getVideoURL() {return videoURL;}
 
 
 }
