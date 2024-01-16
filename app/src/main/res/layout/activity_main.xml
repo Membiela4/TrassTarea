@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="62dp"
         android:layout_marginBottom="62dp"
-        android:backgroundTint="@color/ligthBlue"
+        android:backgroundTint="@color/ligth_blue"
         android:onClick="changeView"
         android:text="@string/startBtn"
         android:textColor="@color/black"

@@ -11,7 +11,7 @@
         android:roundIcon="@drawable/icono_aplicacion1"
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.ModoClaro"
-        tools:targetApi="31">
+            tools:targetApi="33">
         <activity
             android:name=".activities.EditarTareaActivity"
             android:exported="false" />
@@ -37,5 +37,8 @@
 
 
     </application>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 </manifest>

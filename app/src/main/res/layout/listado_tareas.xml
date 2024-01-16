@@ -4,7 +4,7 @@
     android:id="@+id/back"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/darBlue">
+    android:background="@color/dark_blue">
 
     <TextView
         android:id="@+id/textNoTask"

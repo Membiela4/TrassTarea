@@ -14,13 +14,13 @@
 
     <array name="criterio_entries" >
         <item>Fecha</item>
-        <item>Orden</item>
+        <item>Orden Alfabetico</item>
         <item>Prioritaria</item>
     </array>
 
     <array name="criterio_values" >
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
+        <item>fecha_value</item>
+        <item>orden_value</item>
+        <item>prioritaria_value</item>
     </array>
 </resources>

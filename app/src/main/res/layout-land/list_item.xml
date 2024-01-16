@@ -56,7 +56,7 @@
             android:layout_height="24dp"
             android:layout_marginStart="28dp"
             android:layout_marginBottom="4dp"
-            android:foregroundTint="@color/ligthBlue"
+            android:foregroundTint="@color/ligth_blue"
             android:max="100"
             android:progress="0"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -5,7 +5,7 @@
     <PreferenceCategory
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:title="@string/categoriaRestablecer">
+        android:title="@string/categoriaVisualizacion">
 
         <SwitchPreference
             android:defaultValue="false"
@@ -14,7 +14,7 @@
         <ListPreference
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:defaultValue="2"
+            android:defaultValue="medium"
             android:entries="@array/fuentes"
             android:entryValues="@array/dimens"
             android:title="@string/fuente"
@@ -28,7 +28,7 @@
         <ListPreference
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:defaultValue="0"
+            android:defaultValue="Fecha"
             android:entries="@array/criterio_entries"
             android:entryValues="@array/criterio_values"
             android:title="@string/criterio"
@@ -37,7 +37,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:defaultValue="false"
-            android:title="Asc || Desc"
+            android:summaryOff="DESC"
+            android:summaryOn="ASC"
             app:key="switch_orden_key" />
     </PreferenceCategory>
     <PreferenceCategory

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/darBlue"
+    android:background="@color/dark_blue"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".fragments.SecondFragment">
@@ -23,7 +23,7 @@
         android:id="@+id/btn_document"
         android:layout_width="138dp"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/ligthBlue"
+        android:backgroundTint="@color/ligth_blue"
         android:src="@drawable/icons8_documento_50" />
 
     <TextView
@@ -35,7 +35,7 @@
         android:id="@+id/btn_image"
         android:layout_width="138dp"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/ligthBlue"
+        android:backgroundTint="@color/ligth_blue"
         android:src="@drawable/icons8_imagen_50"
         tools:src="@drawable/icons8_imagen_50" />
 
@@ -48,7 +48,7 @@
         android:id="@+id/btn_audio"
         android:layout_width="138dp"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/ligthBlue"
+        android:backgroundTint="@color/ligth_blue"
         android:src="@drawable/icons8_micr_fono_50"
         tools:src="@drawable/icons8_micr_fono_50" />
 
@@ -61,7 +61,7 @@
         android:id="@+id/btn_video"
         android:layout_width="138dp"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/ligthBlue"
+        android:backgroundTint="@color/ligth_blue"
         android:src="@drawable/icons8_v_deo_50"
         tools:src="@drawable/icons8_v_deo_50" />
 
@@ -74,7 +74,7 @@
         android:id="@+id/btn_add"
         android:layout_width="138dp"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/ligthBlue"
+        android:backgroundTint="@color/ligth_blue"
         android:text="@string/crearTareabtn" />
 
     <Button

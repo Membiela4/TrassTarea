@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.tareaut02"
+    namespace = "com.example.tareaut03"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.tareaut02"
+        applicationId = "com.example.tareaut03"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -34,10 +34,15 @@ dependencies {
     implementation("com.google.android.material:material:1.10.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.preference:preference:1.2.1")
+    implementation("androidx.room:room-common:2.6.1")
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.preference:preference:1.2.1")
+
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation("com.airbnb.android:lottie:6.2.0")
+    annotationProcessor("androidx.room:room-compiler:2.6.1")
 
 
 }
