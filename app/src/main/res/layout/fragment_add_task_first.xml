@@ -5,7 +5,6 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_blue"
     tools:context=".fragments.FirstFragment">
 
     <TextView
@@ -17,6 +16,7 @@
         android:foregroundTint="@color/white"
         android:text="@string/tituloTarea"
         android:textColor="@color/yellow"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -40,6 +40,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/fechaInicio"
         android:textColor="@color/yellow"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_titulo" />
@@ -67,6 +68,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/fechaObjetivo"
         android:textColor="@color/yellow"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fecha_inicio_datepicker" />
@@ -93,6 +95,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/progressSpinner"
         android:textColor="@color/yellow"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fecha_objetivo_date_picker" />

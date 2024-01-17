@@ -6,9 +6,11 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,12 +39,13 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class ListadoTareas extends AppCompatActivity  {
+public class ListadoTareas extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private RecyclerView listaTareas;
     public TareaAdapter tareaAdapter;
@@ -83,7 +86,7 @@ public class ListadoTareas extends AppCompatActivity  {
         viewModel.getTareas().observe(this, tareaAdapter::setDatos);
 
         preferencias = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
-
+        comprobarOrdenInicio();
         updateUI();
 
         class MiViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
@@ -114,6 +117,66 @@ public class ListadoTareas extends AppCompatActivity  {
         registerForContextMenu(listaTareas);
     }
 
+
+
+    public void cambiarOrdenListas(){
+        Collections.reverse(tareaList);
+        if (mostrarPreferentes) {
+            viewModel.getPreferentes().observe(this, tareas -> {
+                tareaAdapter.setDatos(tareaList);
+            });
+        } else {
+            viewModel.getTareas().observe(this, tareas -> {
+                tareaAdapter.setDatos(tareaList);
+            });
+        }
+
+        tareaAdapter.notifyDataSetChanged();
+    }
+
+
+
+    public void actualizarListas() {
+        SharedPreferences a = PreferenceManager.getDefaultSharedPreferences(this);
+        String criterio = a.getString("criterio_key", "orden_value");
+
+        switch (criterio) {
+            case "orden_value":
+                tareaAdapter.setDatos( tareaList = baseDatosApp.tareadao().getTareasbyOrdenAlfabetico());
+                break;
+            case "fecha_value":
+                tareaAdapter.setDatos( tareaList = baseDatosApp.tareadao().getTareasOrderByFecha().getValue());
+                break;
+            case "dias_value":
+                tareaAdapter.setDatos( tareaList = baseDatosApp.tareadao().getTareasbyProgreso());
+                break;
+            case "prioritaria_value":
+                tareaAdapter.setDatos( tareaList = baseDatosApp.tareadao().getTareasOrderByPrioritarias());
+                break;
+        }
+
+        if (mostrarPreferentes) {
+            viewModel.getPreferentes().observe(this, tareas -> {
+                tareaAdapter.setDatos(tareaList);
+            });
+        } else {
+            viewModel.getTareas().observe(this, tareas -> {
+                tareaAdapter.setDatos(tareaList);
+            });
+        }
+        viewModel.getTareas().observe(this, tareaAdapter::setDatos);
+
+        tareaAdapter.notifyDataSetChanged();
+    }
+
+
+    public void comprobarOrdenInicio(){
+        SharedPreferences a = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean ordenacion = a.getBoolean("switch_orden_key", true);
+        if (ordenacion){
+            cambiarOrdenListas();
+        }
+    }
 
     public TareaAdapter getTareaAdapter(){
         return tareaAdapter;
@@ -169,6 +232,16 @@ public class ListadoTareas extends AppCompatActivity  {
         return true;
     }
 
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, @Nullable String key) {
+        if (key.equals("criterio_key")){
+            actualizarListas();
+        }
+        if (key.equals("ordenacion_key")) {
+            cambiarOrdenListas();
+        }
+    }
+
 
     ActivityResultLauncher<Intent> preferenciasActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -179,7 +252,7 @@ public class ListadoTareas extends AppCompatActivity  {
                         SharedPreferences sharedPreferences = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
                         boolean temaOscuro = sharedPreferences.getBoolean("temaOscuro", false);
                         aplicarTema(temaOscuro);
-                        Toast.makeText(this, "Valor de tema "+ temaOscuro, Toast.LENGTH_SHORT).show();
+
                     }
                 }
             }
@@ -256,7 +329,7 @@ public class ListadoTareas extends AppCompatActivity  {
         builder.setView(view)
                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // Código a ejecutar cuando se hace clic en Aceptar
+
                         dialog.dismiss(); // Cierra la ventana emergente
                     }
                 });
@@ -267,14 +340,13 @@ public class ListadoTareas extends AppCompatActivity  {
     }
 
     private void updateUI() {
-         Executor executor = Executors.newSingleThreadExecutor();
         if (mostrarPreferentes) {
-            executor.execute(new MostrarPreferentes(viewModel.getTareas()));
+            viewModel.getPreferentes().observe(this, tareas -> tareaAdapter.setDatos(tareas));
         } else {
-            executor.execute(new MostrarTodas(viewModel.getTareas()));
+            viewModel.getTareas().observe(this, tareas -> tareaAdapter.setDatos(tareas));
         }
-        tareaAdapter.notifyDataSetChanged();
     }
+
 
 
     @Override
@@ -391,6 +463,7 @@ public class ListadoTareas extends AppCompatActivity  {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
 
 
     private int getIcon(File archivo) {

@@ -88,15 +88,12 @@
             String fechaObjetivo = vm.getFechaFinalizacion().getValue();
 
             // Verificar si los campos están vacíos
-            if (TextUtils.isEmpty(tituloTarea) || TextUtils.isEmpty(fechaInicio) || TextUtils.isEmpty(fechaObjetivo)) {
-                // Mostrar un mensaje indicando que los campos están vacíos
-                Toast.makeText(this, "Completa todos los campos antes de avanzar", Toast.LENGTH_SHORT).show();
-            } else {
+
                 // Realizar la transacción del fragmento solo si los campos no están vacíos
                 if (!secondFragment.isAdded()) {
                     fragmentManager.beginTransaction().replace(R.id.fragment_container_editar, secondFragment).commit();
                 }
-            }
+
         }
 
         @Override

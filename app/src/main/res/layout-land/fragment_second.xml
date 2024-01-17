@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_blue"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".fragments.SecondFragment">
@@ -12,75 +13,114 @@
         android:id="@+id/tv_descripcion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="54dp"
+        android:layout_marginTop="19dp"
         android:backgroundTint="@color/yellow"
         android:ems="10"
         android:gravity="center"
         android:hint="@string/insertaDescripcion"
         android:inputType="text"
-        android:textColor="@color/yellow" />
+        android:textColor="@color/yellow"
+        app:layout_constraintStart_toStartOf="@+id/tv_image"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/btn_document"
-        android:layout_width="138dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="30dp"
         android:backgroundTint="@color/ligth_blue"
-        android:src="@drawable/icons8_documento_50" />
+        android:src="@drawable/icons8_documento_50"
+        app:layout_constraintStart_toStartOf="@+id/tv_descripcion"
+        app:layout_constraintTop_toBottomOf="@+id/tv_descripcion" />
 
     <TextView
         android:id="@+id/tv_document"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="13dp"
+        android:layout_marginBottom="13dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_document"
+        app:layout_constraintStart_toEndOf="@+id/btn_document" />
 
     <ImageButton
         android:id="@+id/btn_image"
-        android:layout_width="138dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="106dp"
         android:backgroundTint="@color/ligth_blue"
-        android:src="@android:drawable/btn_star"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_document"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btn_document"
         tools:src="@drawable/icons8_imagen_50" />
 
     <TextView
         android:id="@+id/tv_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="26dp"
+        android:layout_marginBottom="13dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_image"
+        app:layout_constraintStart_toEndOf="@+id/btn_image" />
 
     <ImageButton
         android:id="@+id/btn_audio"
-        android:layout_width="138dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="37dp"
         android:backgroundTint="@color/ligth_blue"
-        android:src="@android:drawable/btn_star"
+        app:layout_constraintStart_toStartOf="@+id/btn_image"
+        app:layout_constraintTop_toBottomOf="@+id/btn_image"
         tools:src="@drawable/icons8_micr_fono_50" />
 
     <TextView
         android:id="@+id/tv_audio"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="9dp"
+        android:layout_marginBottom="11dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_audio"
+        app:layout_constraintStart_toEndOf="@+id/btn_audio" />
 
     <ImageButton
         android:id="@+id/btn_video"
-        android:layout_width="138dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="37dp"
         android:backgroundTint="@color/ligth_blue"
-        android:src="@android:drawable/btn_star"
+        app:layout_constraintStart_toStartOf="@+id/btn_document"
+        app:layout_constraintTop_toBottomOf="@+id/btn_document"
         tools:src="@drawable/icons8_v_deo_50" />
 
     <TextView
         android:id="@+id/tv_video"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="13dp"
+        android:layout_marginBottom="11dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_video"
+        app:layout_constraintStart_toEndOf="@+id/btn_video" />
 
     <Button
         android:id="@+id/btn_add"
-        android:layout_width="138dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="260dp"
+        android:layout_marginBottom="28dp"
         android:backgroundTint="@color/ligth_blue"
-        android:text="@string/crearTareabtn" />
+        android:text="@string/crearTareabtn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/btn_back"
-        android:layout_width="138dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="192dp"
+        android:layout_marginBottom="28dp"
         android:backgroundTint="@color/yellow"
-        android:text="@string/volverBtn" />
-</LinearLayout>
+        android:text="@string/volverBtn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/btn_add" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -43,11 +43,13 @@ public interface TareaDAO {
     int getTotalCompletadas();
 
     @Query("SELECT * FROM tareas ORDER BY fecha_inicio")
-    List<Tarea> getTareasOrderByFecha();
+    LiveData<List<Tarea>> getTareasOrderByFecha();
 
     @Query("SELECT * FROM tareas ORDER BY prioritaria")
     List<Tarea> getTareasOrderByPrioritarias();
 
     @Query("SELECT * FROM tareas ORDER BY titulo")
     List<Tarea> getTareasbyOrdenAlfabetico();
+    @Query("SELECT * FROM tareas ORDER BY progreso")
+    List<Tarea> getTareasbyProgreso();
 }

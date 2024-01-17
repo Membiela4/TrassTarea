@@ -15,12 +15,14 @@
     <array name="criterio_entries" >
         <item>Fecha</item>
         <item>Orden Alfabetico</item>
+        <item>Dias restantes</item>
         <item>Prioritaria</item>
     </array>
 
     <array name="criterio_values" >
         <item>fecha_value</item>
         <item>orden_value</item>
+        <item>dias_value</item>
         <item>prioritaria_value</item>
     </array>
 </resources>

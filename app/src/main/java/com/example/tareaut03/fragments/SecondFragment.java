@@ -1,9 +1,12 @@
 package com.example.tareaut03.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsContract;
@@ -20,6 +23,8 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.documentfile.provider.DocumentFile;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -27,9 +32,11 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.tareaut03.R;
 import com.example.tareaut03.bbdd.BaseDatosApp;
 import com.example.tareaut03.model.Tarea;
+import com.example.tareaut03.utils.ConfiguracionAlmacenamiento;
 import com.example.tareaut03.viewmodel.MyViewModel;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -48,12 +55,17 @@ public class SecondFragment extends Fragment {
     private MyViewModel viewModel;
     private FragmentTransaction fragmentTransaction;
     private Tarea nuevaTarea;
+
+    String rutaDocumento,rutaImagen;
+
+    private int archivo =0;
     BaseDatosApp baseDatosApp;
 
     private ActivityResultLauncher<String> documentPickerLauncher, imagePickerLauncher;
 
-    private File destinationDirectory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "ArchivosComunes");;  // Directorio de destino común
+    private File destinationDirectory;
 
+    private ActivityResultLauncher<Intent> activityResultLauncher;
     public SecondFragment() {
         destinationDirectory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "ArchivosComunes");
     }
@@ -83,9 +95,14 @@ public class SecondFragment extends Fragment {
         if (!destinationDirectory.exists()) {
             destinationDirectory.mkdirs();
         }
-    }
 
-    
+        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == Activity.RESULT_OK) {
+                Intent data = result.getData();
+                escribirArchivos(data, archivo);
+            }
+        });
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -111,14 +128,8 @@ public class SecondFragment extends Fragment {
 
         btnAdd.setOnClickListener(v -> {
             viewModel.setDescripcionTarea(tvDescripcion.getText().toString());
-            if (tvDocument.getText() != null) {
-                viewModel.setDocumentURL(tvDocument.getText().toString());
-                moveFileToDirectory(Uri.parse(tvDocument.getText().toString()));
-            }
-            if (tvImage.getText() != null) {
-                viewModel.setImageURL(tvImage.getText().toString());
-                moveFileToDirectory(Uri.parse(tvImage.getText().toString()));
-            }
+            viewModel.setImageURL(tvImage.getText().toString());
+            viewModel.setDocumentURL(tvDocument.getText().toString());
 
             Tarea tarea = new Tarea(
                     viewModel.getTituloTarea() != null ? viewModel.getTituloTarea().getValue() : "",
@@ -139,12 +150,19 @@ public class SecondFragment extends Fragment {
         });
 
 
-        btnBack.setOnClickListener(v -> comunicador2.onBack());
+        btnBack.setOnClickListener(v -> {
+
+            viewModel.setDescripcionTarea(tvDescripcion.getText().toString());
+            viewModel.setImageURL(tvImage.getText().toString());
+            viewModel.setDocumentURL(tvDocument.getText().toString());
+            comunicador2.onBack();
+
+        });
 
         documentPickerLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(),
                 uri -> {
                     if (uri != null) {
-                        tvDocument.setText(getFilePathFromUri(uri));
+                        tvDocument.setText(getFileNameFromUri(uri));
                     }
                 });
 
@@ -153,7 +171,7 @@ public class SecondFragment extends Fragment {
         imagePickerLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(),
                 uri -> {
                     if (uri != null) {
-                        tvImage.setText(getFilePathFromUri(uri));
+                        tvImage.setText(getFileNameFromUri(uri));
                     }
                 });
 
@@ -162,76 +180,66 @@ public class SecondFragment extends Fragment {
         return fragmento2;
     }
 
-    private void moveFileToDirectory(Uri sourceUri) {
-        try {
-            // Get the path of the file
-            String filePath = getFilePathFromUri(sourceUri);
 
-            if (filePath != null) {
-                // Verify if the SD card is available
-                if (isExternalStorageWritable()) {
-                    // Create an InputStream from the source URI
-                    try (InputStream inputStream = requireActivity().getContentResolver().openInputStream(sourceUri)) {
-                        // Check if the target directory exists
-                        if (!destinationDirectory.exists()) {
-                            Toast.makeText(requireActivity(), "Target directory does not exist", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
+    private String getFileNameFromUri(Uri uri) {
+        String fileName = null;
 
-                        // Create a new file in the target directory
-                        File destinationFile = new File(destinationDirectory, new File(filePath).getName());
-
-                        // Open an OutputStream to the new file
-                        try (OutputStream outputStream = new FileOutputStream(destinationFile)) {
-                            // Copy the data from the InputStream to the OutputStream
-                            byte[] buffer = new byte[1024];
-                            int length;
-                            while ((length = inputStream.read(buffer)) > 0) {
-                                outputStream.write(buffer, 0, length);
-                            }
-
-                            Toast.makeText(requireActivity(), "File moved successfully", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                } else {
-                    // The SD card is not available
-                    Toast.makeText(requireActivity(), "SD card not available", Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                // Unable to get the file path
-                Toast.makeText(requireActivity(), "Unable to get file path", Toast.LENGTH_SHORT).show();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(requireActivity(), "Error moving file", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
-    // Método para verificar si la tarjeta SD está disponible y se puede escribir
-    private boolean isExternalStorageWritable() {
-        String state = Environment.getExternalStorageState();
-        return Environment.MEDIA_MOUNTED.equals(state);
-    }
-
-    private String getFilePathFromUri(Uri uri) {
-        String filePath = null;
-
-        // Intentar obtener la ruta del archivo desde la columna DATA
-        String[] projection = {MediaStore.Images.Media.DATA};
+        // Intentar obtener el nombre del archivo desde la columna DISPLAY_NAME
+        String[] projection = {MediaStore.Images.Media.DISPLAY_NAME};
         try (Cursor cursor = requireActivity().getContentResolver().query(uri, projection, null, null, null)) {
             if (cursor != null && cursor.moveToFirst()) {
-                int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                filePath = cursor.getString(columnIndex);
+                int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME);
+                fileName = cursor.getString(columnIndex);
             }
         }
 
-        // Si no se pudo obtener desde DATA, intentar obtener la ruta desde la URI
-        if (filePath == null) {
-            filePath = uri.getPath();
+        // Si no se pudo obtener desde DISPLAY_NAME, intentar obtener la ruta desde la URI
+        if (fileName == null) {
+            // En Android 10 y versiones posteriores, utiliza DocumentFile para obtener el nombre
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                DocumentFile documentFile = DocumentFile.fromSingleUri(requireActivity(), uri);
+                if (documentFile != null) {
+                    fileName = documentFile.getName();
+                }
+            }
         }
 
-        return filePath;
+        return fileName;
+    }
+
+
+
+    public void escribirArchivos(Intent data, int caso){
+        Uri imageUri = data.getData();
+        // Guarda la imagen en el almacenamiento interno del dispositivo
+        File imageFile = new File(requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), imageUri.getLastPathSegment());
+        try {
+            InputStream inputStream =  getContext().getContentResolver().openInputStream(imageUri);
+            OutputStream outputStream = new FileOutputStream(imageFile);
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+            inputStream.close();
+            outputStream.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        switch (caso) {
+            case 1:
+                rutaImagen = imageFile.getAbsolutePath();
+                tvImage.setText(rutaImagen);
+                break;
+            case 2:
+                rutaDocumento = imageFile.getAbsolutePath();
+                tvDocument.setText(rutaDocumento);
+                break;
+        }
+
+
     }
 
 
