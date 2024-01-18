@@ -51,13 +51,10 @@
         @Override
         public void onTaskCreated() {
 
-            if(vm.getDocumentURL()!=null || vm.getImageURL()!=null){
-                Tarea newTask = new Tarea(vm.getTituloTarea(), vm.getDescripcionTarea(), vm.getProgreso(), vm.getFechaInicio()
-                        , vm.getFechaFinalizacion(), vm.getTareaPrioritaria(),vm.getImageURL(),vm.getDocumentURL());
-            }
 
-            Tarea newTask = new Tarea(vm.getTituloTarea(), vm.getDescripcionTarea(), vm.getProgreso(), vm.getFechaInicio()
-                    , vm.getFechaFinalizacion(), vm.getTareaPrioritaria());
+                Tarea newTask = new Tarea(vm.getTituloTarea(), vm.getDescripcionTarea(), vm.getProgreso(), vm.getFechaInicio()
+                        , vm.getFechaFinalizacion(), vm.getTareaPrioritaria(),vm.getImageURL(),vm.getDocumentURL(),vm.getVideoURL(),vm.getAudioURL());
+
 
 
             Intent intent = new Intent(this,ListadoTareas.class);

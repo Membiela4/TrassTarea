@@ -43,6 +43,7 @@
     <string name="puertoBbdd">Port</string>
     <string name="contrasenaBbdd">Password</string>
     <string name="estadisticas">Stats</string>
+    <string name="archivosAsociados">Task files</string>
 
 
 </resources>

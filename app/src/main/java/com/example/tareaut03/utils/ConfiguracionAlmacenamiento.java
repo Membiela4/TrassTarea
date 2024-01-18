@@ -7,8 +7,8 @@ import android.preference.PreferenceManager;
 
 public class ConfiguracionAlmacenamiento {
 
-    private static final String PREF_SD = "pref_almacenamiento_sd";
-    private static final String PREF_LIMPIEZA = "pref_limpieza";
+    private static final String PREF_SD = "check_sd";
+    private static final String PREF_LIMPIEZA = "numdias_limpieza";
 
     public static boolean getAlmacenamientoSD(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -44,6 +44,6 @@ public class ConfiguracionAlmacenamiento {
     }
 
     private static String obtenerDirectorioSD() {
-        return Environment.getExternalStorageDirectory().getPath() + "/tu_directorio_en_sd";
+        return Environment.getExternalStorageDirectory().getPath() + "/archivosComunes";
     }
 }

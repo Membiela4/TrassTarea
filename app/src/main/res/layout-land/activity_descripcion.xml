@@ -1,0 +1,155 @@
+<!-- activity_detalle_tarea.xml -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.DescripcionActivity">
+
+    <TextView
+        android:id="@+id/descripcionLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/descripcionTarea"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/descripcion_text_view"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/archivosTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="89dp"
+        android:text="@string/archivosAsociados"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_video"
+        android:layout_width="182dp"
+        android:layout_height="59dp"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_audio"
+        app:layout_constraintEnd_toEndOf="@+id/btnVideo"
+        app:layout_constraintStart_toStartOf="@+id/btnVideo"
+        app:layout_constraintTop_toTopOf="@+id/btnVolver"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/btnVolver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="74dp"
+        android:layout_marginEnd="86dp"
+        android:background="@color/dark_blue"
+        android:text="@string/volverBtn"
+        android:textColor="@color/yellow"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txt_audio"
+        app:layout_constraintTop_toBottomOf="@+id/descripcion_text_view"
+        app:layout_constraintVertical_bias="0.191" />
+
+    <ImageButton
+        android:id="@+id/btnVideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="132dp"
+        android:background="@color/ligth_blue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/txt_image"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="@+id/txt_image"
+        app:srcCompat="@drawable/icons8_v_deo_50" />
+
+    <TextView
+        android:id="@+id/txt_audio"
+        android:layout_width="182dp"
+        android:layout_height="61dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="37dp"
+        android:layout_marginEnd="371dp"
+        android:layout_marginBottom="46dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/btnAudio"
+        app:layout_constraintEnd_toStartOf="@+id/btnVolver"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnAudio"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageButton
+        android:id="@+id/btnImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="52dp"
+        android:background="@color/ligth_blue"
+        app:layout_constraintBottom_toTopOf="@+id/txt_image"
+        app:layout_constraintEnd_toEndOf="@+id/btnVideo"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/btnVideo"
+        app:srcCompat="@drawable/icons8_imagen_50" />
+
+    <ImageButton
+        android:id="@+id/btnDocument"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:background="@color/ligth_blue"
+        app:layout_constraintStart_toStartOf="@+id/archivosTextView"
+        app:layout_constraintTop_toBottomOf="@+id/archivosTextView"
+        app:srcCompat="@drawable/icons8_documento_50" />
+
+    <ImageButton
+        android:id="@+id/btnAudio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="70dp"
+        android:background="@color/ligth_blue"
+        app:layout_constraintBottom_toBottomOf="@+id/btnVideo"
+        app:layout_constraintEnd_toEndOf="@+id/txt_document"
+        app:layout_constraintTop_toTopOf="@+id/btnVideo"
+        app:srcCompat="@drawable/icons8_micr_fono_50" />
+
+    <TextView
+        android:id="@+id/descripcion_text_view"
+        android:layout_width="0dp"
+        android:layout_height="124dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="42dp"
+        android:layout_marginBottom="50dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btnVideo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txt_image"
+        app:layout_constraintTop_toTopOf="@+id/descripcionLabel"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/txt_document"
+        android:layout_width="182dp"
+        android:layout_height="59dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="39dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnAudio"
+        app:layout_constraintEnd_toStartOf="@+id/txt_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnDocument"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/txt_image"
+        android:layout_width="182dp"
+        android:layout_height="65dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnVideo"
+        app:layout_constraintEnd_toStartOf="@+id/descripcion_text_view"
+        app:layout_constraintStart_toEndOf="@+id/txt_document"
+        app:layout_constraintTop_toTopOf="@+id/descripcion_text_view"
+        app:layout_constraintVertical_bias="0.89" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

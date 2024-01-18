@@ -43,5 +43,6 @@
     <string name="puertoBbdd">Puerto</string>
     <string name="contrasenaBbdd">Contraseña</string>
     <string name="estadisticas">Estadisticas</string>
+    <string name="archivosAsociados">Archivos asociados</string>
 
 </resources>

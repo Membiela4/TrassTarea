@@ -1,10 +1,5 @@
 package com.example.tareaut03.activities;
 
-
-
-
-
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -74,17 +69,7 @@ public class PreferenciasActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onSwitchChanged(boolean newValue) {
-        // Obtener el estado del switch
-        boolean isChecked = newValue;
 
-        // Notificar a la actividad principal
-        if (isChecked) {
-            resultado.putExtra("temaOscuro", true);
-        } else {
-            resultado.putExtra("temaOscuro", false);
-        }
-    }
 
 
 

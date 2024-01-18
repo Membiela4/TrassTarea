@@ -30,6 +30,7 @@ public class MyViewModel extends ViewModel {
     private final MutableLiveData<String> audioURL = new MutableLiveData<>();
     private final MutableLiveData<String> videoURL = new MutableLiveData<>();
 
+
     private final MutableLiveData<Integer> posicion = new MutableLiveData<>();
 
         private MutableLiveData<Tarea> tareaEditada = new MutableLiveData<>();
@@ -108,6 +109,8 @@ public class MyViewModel extends ViewModel {
     public void setImageURL(String url){
             this.imageURL.setValue(url);
     }
+    public void setAudioURL(String url){this.audioURL.setValue(url);}
+    public void setVideoURL(String url){this.videoURL.setValue(url);}
 
 
     public MutableLiveData<String> getTituloTarea() {

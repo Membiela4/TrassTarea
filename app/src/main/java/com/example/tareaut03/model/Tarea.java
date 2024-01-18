@@ -64,7 +64,7 @@ public class Tarea implements Parcelable, Serializable {
 
 
 
-    public Tarea(MutableLiveData<String> tituloTarea, MutableLiveData<String> descripcionTarea, MutableLiveData<Integer> progreso, MutableLiveData<String> fechaInicio, MutableLiveData<String> fechaFinalizacion, MutableLiveData<Boolean> tareaPrioritaria, MutableLiveData<String> imageURL, MutableLiveData<String> documentURL) {
+    public Tarea(MutableLiveData<String> tituloTarea, MutableLiveData<String> descripcionTarea, MutableLiveData<Integer> progreso, MutableLiveData<String> fechaInicio, MutableLiveData<String> fechaFinalizacion, MutableLiveData<Boolean> tareaPrioritaria, MutableLiveData<String> imageURL, MutableLiveData<String> documentURL, MutableLiveData<String>videoURL,MutableLiveData<String> audioURL ) {
         this.titulo = tituloTarea != null ? tituloTarea.getValue() : "";
         this.descripcion = descripcionTarea != null ? descripcionTarea.getValue() : "";
         this.progreso = progreso != null ? progreso.getValue() : 0;
@@ -73,6 +73,8 @@ public class Tarea implements Parcelable, Serializable {
         this.prioritaria = tareaPrioritaria != null && tareaPrioritaria.getValue() != null ? tareaPrioritaria.getValue() : false;
         this.image_url = imageURL != null ? imageURL.getValue() : "";
         this.document_url = documentURL != null ? documentURL.getValue() : "";
+        this.audio_url = audioURL !=null ? audioURL.getValue(): "";
+        this.video_url = videoURL !=null ? videoURL.getValue(): "";
     }
 
 
@@ -136,6 +138,10 @@ public class Tarea implements Parcelable, Serializable {
         fechaInicio = in.readString();
         fechaFinal = in.readString();
         prioritaria = in.readByte() != 0;
+        document_url = in.readString();
+        image_url = in.readString();
+        audio_url = in.readString();
+        video_url = in.readString();
     }
 
     public static final Creator<Tarea> CREATOR = new Creator<Tarea>() {
@@ -253,5 +259,9 @@ public class Tarea implements Parcelable, Serializable {
         dest.writeString(fechaInicio);
         dest.writeString(fechaFinal);
         dest.writeByte((byte) (prioritaria ? 1 : 0));
+        dest.writeString(document_url);
+        dest.writeString(image_url);
+        dest.writeString(audio_url);
+        dest.writeString(video_url);
     }
 }

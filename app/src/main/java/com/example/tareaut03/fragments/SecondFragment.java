@@ -56,12 +56,13 @@ public class SecondFragment extends Fragment {
     private FragmentTransaction fragmentTransaction;
     private Tarea nuevaTarea;
 
-    String rutaDocumento,rutaImagen;
+    String rutaDocumento,rutaImagen, rutaVideo, rutaAudio;
 
     private int archivo =0;
     BaseDatosApp baseDatosApp;
 
-    private ActivityResultLauncher<String> documentPickerLauncher, imagePickerLauncher;
+    private ActivityResultLauncher<String> documentPickerLauncher, imagePickerLauncher, audioPickerLauncher,videoPickerLauncher;
+
 
     private File destinationDirectory;
 
@@ -80,6 +81,10 @@ public class SecondFragment extends Fragment {
         super.onResume();
         if (viewModel != null && viewModel.getDescripcionTarea() != null && tvDescripcion != null) {
             tvDescripcion.setText(viewModel.getDescripcionTarea().getValue());
+            tvDocument.setText(viewModel.getDocumentURL().getValue());
+            tvImage.setText(viewModel.getImageURL().getValue());
+            tvVideo.setText(viewModel.getVideoURL().getValue());
+            tvAudio.setText(viewModel.getAudioURL().getValue());
 
         }
     }
@@ -130,16 +135,20 @@ public class SecondFragment extends Fragment {
             viewModel.setDescripcionTarea(tvDescripcion.getText().toString());
             viewModel.setImageURL(tvImage.getText().toString());
             viewModel.setDocumentURL(tvDocument.getText().toString());
+            viewModel.setVideoURL(tvVideo.getText().toString());
+            viewModel.setAudioURL(tvAudio.getText().toString());
 
             Tarea tarea = new Tarea(
-                    viewModel.getTituloTarea() != null ? viewModel.getTituloTarea().getValue() : "",
-                    viewModel.getDescripcionTarea() != null ? viewModel.getDescripcionTarea().getValue() : "",
-                    viewModel.getProgreso().getValue() != null ? viewModel.getProgreso().getValue() : 0,
-                    viewModel.getFechaInicio() != null ? viewModel.getFechaInicio().getValue() : "",
-                    viewModel.getFechaFinalizacion() != null ? viewModel.getFechaFinalizacion().getValue() : "",
-                    viewModel.getTareaPrioritaria().getValue() != null ? viewModel.getTareaPrioritaria().getValue() : false,
-                    viewModel.getImageURL() != null ? viewModel.getImageURL().getValue() : "",
-                    viewModel.getDocumentURL() != null ? viewModel.getDocumentURL().getValue() : ""
+                    viewModel.getTituloTarea(),
+                    viewModel.getDescripcionTarea() ,
+                    viewModel.getProgreso(),
+                    viewModel.getFechaInicio(),
+                    viewModel.getFechaFinalizacion(),
+                    viewModel.getTareaPrioritaria(),
+                    viewModel.getImageURL() ,
+                    viewModel.getDocumentURL(),
+                    viewModel.getAudioURL() ,
+                    viewModel.getVideoURL()
             );
 
             Executor executor = Executors.newSingleThreadExecutor();
@@ -155,6 +164,8 @@ public class SecondFragment extends Fragment {
             viewModel.setDescripcionTarea(tvDescripcion.getText().toString());
             viewModel.setImageURL(tvImage.getText().toString());
             viewModel.setDocumentURL(tvDocument.getText().toString());
+            viewModel.setAudioURL(tvImage.getText().toString());
+            viewModel.setVideoURL(tvImage.getText().toString());
             comunicador2.onBack();
 
         });
@@ -176,6 +187,25 @@ public class SecondFragment extends Fragment {
                 });
 
         btnImage.setOnClickListener(v -> imagePickerLauncher.launch("image/*"));
+
+        audioPickerLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(),
+                uri -> {
+                    if (uri != null) {
+                        tvAudio.setText(getFileNameFromUri(uri));
+                    }
+                });
+
+        btnAudio.setOnClickListener(v -> audioPickerLauncher.launch("audio/*"));
+
+        videoPickerLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(),
+                uri -> {
+                    if (uri != null) {
+                        tvVideo.setText(getFileNameFromUri(uri));
+                    }
+                });
+
+        btnVideo.setOnClickListener(v -> videoPickerLauncher.launch("video/*"));
+
 
         return fragmento2;
     }
@@ -236,6 +266,14 @@ public class SecondFragment extends Fragment {
             case 2:
                 rutaDocumento = imageFile.getAbsolutePath();
                 tvDocument.setText(rutaDocumento);
+                break;
+            case 3:
+                rutaAudio = imageFile.getAbsolutePath();
+                tvAudio.setText(rutaAudio);
+                break;
+            case 4:
+                rutaVideo = imageFile.getAbsolutePath();
+                tvVideo.setText(rutaVideo);
                 break;
         }
 

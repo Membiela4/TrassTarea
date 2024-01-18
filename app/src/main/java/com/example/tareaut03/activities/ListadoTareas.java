@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,7 +29,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.tareaut03.R;
 import com.example.tareaut03.adapters.TareaAdapter;
@@ -43,7 +43,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class ListadoTareas extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -136,7 +135,7 @@ public class ListadoTareas extends AppCompatActivity implements SharedPreference
 
 
 
-    public void actualizarListas() {
+    public void ordenarListas() {
         SharedPreferences a = PreferenceManager.getDefaultSharedPreferences(this);
         String criterio = a.getString("criterio_key", "orden_value");
 
@@ -178,9 +177,7 @@ public class ListadoTareas extends AppCompatActivity implements SharedPreference
         }
     }
 
-    public TareaAdapter getTareaAdapter(){
-        return tareaAdapter;
-    }
+
     ActivityResultContract<Intent, ActivityResult> contract = new ActivityResultContracts.StartActivityForResult();
 
     ActivityResultCallback<ActivityResult> respuesta = new ActivityResultCallback<ActivityResult>() {
@@ -235,7 +232,7 @@ public class ListadoTareas extends AppCompatActivity implements SharedPreference
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, @Nullable String key) {
         if (key.equals("criterio_key")){
-            actualizarListas();
+            ordenarListas();
         }
         if (key.equals("ordenacion_key")) {
             cambiarOrdenListas();
@@ -250,21 +247,13 @@ public class ListadoTareas extends AppCompatActivity implements SharedPreference
                     Intent data = result.getData();
                     if (data != null) {
                         SharedPreferences sharedPreferences = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
-                        boolean temaOscuro = sharedPreferences.getBoolean("temaOscuro", false);
-                        aplicarTema(temaOscuro);
 
                     }
                 }
             }
     );
 
-    private void aplicarTema(boolean valor){
-        if (!valor) {
-            setTheme(R.style.Base_Theme_ModoClaro);
-        } else {
-            setTheme(androidx.appcompat.R.style.Theme_AppCompat_NoActionBar);
-        }
-    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -349,12 +338,18 @@ public class ListadoTareas extends AppCompatActivity implements SharedPreference
 
 
 
+
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
         Tarea tarea = tareaAdapter.getTarea();
         if (itemId == R.id.descripcion_menu_item) {
-            showDescriptionDialog(tarea);
+            Intent intent = new Intent(this, DescripcionActivity.class);
+            intent.putExtra("tarea", (Parcelable) tarea);
+            startActivity(intent);
+            Log.d("DescripcionActivity", "document_url: " + tarea.getDocument_url());
+            Log.d("DescripcionActivity", "image_url: " + tarea.getImage_url());
+
         } else if (itemId == R.id.borrar_menu_item) {
             mostrarDialogoConfirmacionBorrado(tarea);
 
